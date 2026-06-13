@@ -312,30 +312,7 @@ footer{
 </head>
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    
-<body>
-    <script>
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-
-function showSlide(index){
-    slides.forEach(slide =>
-        slide.classList.remove("active")
-    );
-
-    slides[index].classList.add("active");
-}
-
-setInterval(() => {
-    currentSlide++;
-
-    if(currentSlide >= slides.length){
-        currentSlide = 0;
-    }
-
-    showSlide(currentSlide);
-}, 5000);
-</script>
+    <body>
 <script>
 function toggleMenu(){
     document.getElementById("sidebar")
@@ -393,26 +370,46 @@ function toggleSearch(){
 
   <div class="swiper-wrapper">
 
-    <div class="swiper-slide">
-      <img src="solo.jpg" alt="">
-      <div class="slide-content">
-        <h1>Solo Leveling</h1>
-      </div>
-    </div>
+<div class="swiper-slide"
+onclick="location.href='solo-leveling.html'"
+style="cursor:pointer;">
+  <img src="solo.jpg" alt="">
+  <div class="slide-content">
+    <h1>Solo Leveling</h1>
+    <a href="solo-leveling.html" class="btn">
+      Read Now
+    </a>
+  </div>
+</div>
 
-    <div class="swiper-slide">
-      <img src="orv.jpg" alt="">
-      <div class="slide-content">
-        <h1>Omniscient Reader</h1>
-      </div>
-    </div>
+<div class="swiper-slide"
+onclick="location.href='orv.html'"
+style="cursor:pointer;">
+  <img src="orv.jpg" alt="">
+  <div class="slide-content">
+    <h1>Omniscient Reader</h1>
+    <a href="orv.html" class="btn">
+      Read Now
+    </a>
+  </div>
+</div>
 
-    <div class="swiper-slide">
-      <img src="nano.jpg" alt="">
-      <div class="slide-content">
-        <h1>Nano Machine</h1>
-      </div>
-    </div>
+<div class="swiper-slide"
+onclick="location.href='nano-machine.html'"
+style="cursor:pointer;">
+
+  <img src="nano.jpg" alt="">
+
+  <div class="slide-content">
+    <h1>Nano Machine</h1>
+
+    <a href="nano-machine.html" class="btn">
+      Read Now
+    </a>
+
+  </div>
+
+</div>
 
   </div>
 
