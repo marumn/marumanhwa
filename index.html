@@ -266,9 +266,36 @@ footer{
     color:#ddd;
     margin-bottom:15px;
 }
+   .mySwiper{
+    width:100%;
+    height:450px;
+}
+
+.swiper-slide{
+    position:relative;
+}
+
+.swiper-slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(.45);
+}
+
+.slide-content{
+    position:absolute;
+    left:25px;
+    bottom:40px;
+}
+
+.slide-content h1{
+    font-size:40px;
+} 
 </style>
 </head>
-
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    
 <body>
     <script>
 let currentSlide = 0;
@@ -345,37 +372,37 @@ function toggleSearch(){
 
 </div>
 
-<section class="hero-slider">
+<section class="swiper mySwiper">
 
-    <div class="slide active">
-        <img src="solo.jpg" alt="Solo Leveling">
+  <div class="swiper-wrapper">
 
-        <div class="slide-content">
-            <h1>Solo Leveling</h1>
-            <p>Chapter 201 Available Now</p>
-            <a href="#" class="btn">Read Now</a>
-        </div>
+    <div class="swiper-slide">
+      <img src="solo.jpg" alt="">
+      <div class="slide-content">
+        <h1>Solo Leveling</h1>
+      </div>
     </div>
 
-    <div class="slide">
-        <img src="orv.jpg" alt="ORV">
-
-        <div class="slide-content">
-            <h1>Omniscient Reader</h1>
-            <p>Chapter 268 Available Now</p>
-            <a href="#" class="btn">Read Now</a>
-        </div>
+    <div class="swiper-slide">
+      <img src="orv.jpg" alt="">
+      <div class="slide-content">
+        <h1>Omniscient Reader</h1>
+      </div>
     </div>
 
-    <div class="slide">
-        <img src="nano.jpg" alt="Nano Machine">
-
-        <div class="slide-content">
-            <h1>Nano Machine</h1>
-            <p>Chapter 259 Available Now</p>
-            <a href="#" class="btn">Read Now</a>
-        </div>
+    <div class="swiper-slide">
+      <img src="nano.jpg" alt="">
+      <div class="slide-content">
+        <h1>Nano Machine</h1>
+      </div>
     </div>
+
+  </div>
+
+  <div class="swiper-pagination"></div>
+
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
 
 </section>
 
@@ -464,6 +491,27 @@ function toggleSearch(){
         </a>
     </p>
 </footer>
+    
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+const swiper = new Swiper(".mySwiper", {
+  loop: true,
 
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false,
+  },
+
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+</script>
 </body>
 </html>
