@@ -20,14 +20,15 @@ body{
 
 header{
     background:#1a1a1a;
-    padding:15px 5%;
+    padding:12px 15px;
     display:flex;
     justify-content:space-between;
     align-items:center;
     position:sticky;
     top:0;
+    z-index:1000;
+    border-bottom:1px solid rgba(255,46,99,.15);
 }
-
 .logo{
     color:#ff2e63;
     font-size:28px;
@@ -131,17 +132,25 @@ footer{
     margin-top:40px;
     color:#888;
 }
- .logo-wrap img{
+.logo-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+}
+
+.logo-wrap img{
     width:32px;
     height:32px;
+    object-fit:contain;
 }
 
 .logo{
-    font-size:20px;
-}
-    .header-right{
-    display:flex;
-    gap:10px;
+    color:#ff2e63;
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:1px;
+    white-space:nowrap;
 }
 
 .search-btn,
@@ -187,6 +196,35 @@ footer{
     padding:10px 0;
     border-bottom:1px solid rgba(255,255,255,.05);
 }
+    .close-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+    float:right;
+    margin-bottom:20px;
+}
+
+.search-box-hidden{
+    display:none;
+    padding:15px;
+    background:#151515;
+}
+
+.show-search{
+    display:block;
+}
+
+.search-box-hidden input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#222;
+    color:white;
+    font-size:16px;
+}
 </style>
 </head>
 
@@ -196,6 +234,11 @@ function toggleMenu(){
     document.getElementById("sidebar")
         .classList.toggle("active");
 }
+
+function toggleSearch(){
+    document.getElementById("searchBox")
+        .classList.toggle("show-search");
+}
 </script>
 <header>
     <div class="logo-wrap">
@@ -204,11 +247,16 @@ function toggleMenu(){
 </div>
 
     <div class="header-right">
-    <button class="search-btn">🔍</button>
+    <button class="search-btn" onclick="toggleSearch()">🔍</button>
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
 </div>
 </header>
+    <div id="searchBox" class="search-box-hidden">
+    <input type="text" placeholder="Search manga...">
+</div>
     <div id="sidebar" class="sidebar">
+
+    <button class="close-btn" onclick="toggleMenu()">✕</button>
 
     <a href="#">🏠 Home</a>
     <a href="#">📚 Series</a>
@@ -229,6 +277,8 @@ function toggleMenu(){
     <a href="#">Ongoing</a>
     <a href="#">Completed</a>
     <a href="#">Upcoming</a>
+
+    <a href="privacy.html">🔒 Privacy Policy</a>
 
 </div>
 
