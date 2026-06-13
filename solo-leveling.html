@@ -19,12 +19,17 @@ body{
     background:#1a1a1a;
     padding:15px;
     border-bottom:1px solid rgba(255,46,99,.2);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 .logo-wrap{
-    text-decoration:none;
     display:flex;
     align-items:center;
     gap:10px;
+    text-decoration:none;
+    flex-shrink:0;
 }
 .logo-wrap img{
     width:40px;
@@ -32,7 +37,7 @@ body{
 }
 .logo-wrap span{
     color:#ff2e63;
-    font-size:22px;
+    font-size:18px;
     font-weight:800;
 }
 .banner{
@@ -74,8 +79,8 @@ body{
     width:260px;
     border-radius:12px;
     box-shadow:
-    0 0 40px rgba(255,46,99,.7),
-    0 0 80px rgba(255,46,99,.35);
+    0 0 30px rgba(255,46,99,.5),
+    0 0 60px rgba(255,46,99,.25);
 }
 .details{
     flex:1;
