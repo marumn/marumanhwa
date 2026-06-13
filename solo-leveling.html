@@ -21,6 +21,7 @@ body{
     border-bottom:1px solid rgba(255,46,99,.2);
 }
 .logo-wrap{
+    text-decoration:none;
     display:flex;
     align-items:center;
     gap:10px;
@@ -72,6 +73,9 @@ body{
 .cover{
     width:260px;
     border-radius:12px;
+    box-shadow:
+    0 0 40px rgba(255,46,99,.7),
+    0 0 80px rgba(255,46,99,.35);
 }
 .details{
     flex:1;
@@ -201,15 +205,80 @@ footer a{
     .banner-content h1{
         font-size:32px;
     }
+    .menu-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:8px;
+    background:#242424;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.sidebar{
+    position:fixed;
+    top:0;
+    right:-280px;
+    width:280px;
+    height:100%;
+    background:#151515;
+    z-index:2000;
+    padding:25px;
+    transition:.3s;
+    overflow-y:auto;
+}
+
+.sidebar.active{
+    right:0;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:12px 0;
+}
+
+.close-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+    float:right;
+}
 }
 </style>
 </head>
 <body>
+    <div id="sidebar" class="sidebar">
+
+    <button class="close-btn" onclick="toggleMenu()">✕</button>
+
+    <a href="index.html">🏠 Home</a>
+    <a href="#">📚 Series</a>
+    <a href="#">🆕 Updates</a>
+    <a href="#">🔥 Popular</a>
+
+    <h3>Genres</h3>
+
+    <a href="#">Action</a>
+    <a href="#">Fantasy</a>
+    <a href="#">Romance</a>
+    <a href="#">Murim</a>
+
+</div>
+    
 <header class="topbar">
-    <div class="logo-wrap">
+
+    <a href="index.html" class="logo-wrap">
         <img src="logo.png" alt="">
         <span>MARU MANHWA</span>
-    </div>
+    </a>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
 </header>
 <div class="container">
 <div class="info-box">
@@ -294,6 +363,12 @@ chapterList.innerHTML += `
 Chapter ${i}
 </a>
 `;
+}
+</script>
+    <script>
+function toggleMenu(){
+    document.getElementById("sidebar")
+    .classList.toggle("active");
 }
 </script>
 </body>
