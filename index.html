@@ -131,42 +131,106 @@ footer{
     margin-top:40px;
     color:#888;
 }
-    .logo-wrap{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.logo-wrap img{
-    width:45px;
-    height:45px;
-    object-fit:contain;
+ .logo-wrap img{
+    width:32px;
+    height:32px;
 }
 
 .logo{
+    font-size:20px;
+}
+    .header-right{
+    display:flex;
+    gap:10px;
+}
+
+.search-btn,
+.menu-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:8px;
+    background:#242424;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.sidebar{
+    position:fixed;
+    top:0;
+    right:-280px;
+    width:280px;
+    height:100%;
+    background:#151515;
+    z-index:1000;
+    padding:25px;
+    transition:.3s;
+    overflow-y:auto;
+    border-left:1px solid rgba(255,46,99,.2);
+}
+
+.sidebar.active{
+    right:0;
+}
+
+.sidebar h3{
     color:#ff2e63;
-    font-size:30px;
-    font-weight:800;
-    letter-spacing:2px;
+    margin-top:25px;
+    margin-bottom:10px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
 }
 </style>
 </head>
 
 <body>
-
+<script>
+function toggleMenu(){
+    document.getElementById("sidebar")
+        .classList.toggle("active");
+}
+</script>
 <header>
     <div class="logo-wrap">
     <img src="logo.png" alt="Maru Manga">
     <div class="logo">MARU MANHWA</div>
 </div>
 
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Series</a>
-        <a href="#">Latest</a>
-        <a href="#">Popular</a>
-    </nav>
+    <div class="header-right">
+    <button class="search-btn">🔍</button>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</div>
 </header>
+    <div id="sidebar" class="sidebar">
+
+    <a href="#">🏠 Home</a>
+    <a href="#">📚 Series</a>
+    <a href="#">🆕 Updates</a>
+    <a href="#">🔥 Popular</a>
+    <a href="#">⭐ Added</a>
+
+    <h3>Genres</h3>
+
+    <a href="#">Action</a>
+    <a href="#">Romance</a>
+    <a href="#">Fantasy</a>
+    <a href="#">Murim</a>
+    <a href="#">Comedy</a>
+
+    <h3>Status</h3>
+
+    <a href="#">Ongoing</a>
+    <a href="#">Completed</a>
+    <a href="#">Upcoming</a>
+
+</div>
 
 <section class="hero">
     <h1>Read Manhwa Online</h1>
@@ -267,4 +331,3 @@ footer{
 
 </body>
 </html>
-```
