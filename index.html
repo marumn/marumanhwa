@@ -328,6 +328,19 @@ footer{
 .swiper-pagination-bullet-active{
     background:#ff2e63 !important;
 }
+    #searchResults{
+    background:#151515;
+}
+
+.search-result{
+    padding:15px;
+    border-bottom:1px solid #222;
+    cursor:pointer;
+}
+
+.search-result:hover{
+    background:#222;
+}
 </style>
 </head>
 <link rel="stylesheet"
@@ -361,6 +374,7 @@ function toggleSearch(){
     type="text"
     placeholder="Search manhwa..."
     onkeyup="searchManhwa()">
+        <div id="searchResults"></div>
 </div>
     <div id="sidebar" class="sidebar">
 
@@ -566,21 +580,52 @@ const swiper = new Swiper(".mySwiper", {
     document.getElementById("searchInput")
     .value.toLowerCase();
 
-    let cards =
-    document.querySelectorAll(".card");
+    let results =
+    document.getElementById("searchResults");
 
-    cards.forEach(card => {
+    results.innerHTML = "";
 
-        let title =
-        card.getAttribute("data-title");
+    const manhwa = [
 
-        if(title){
+        {
+            title:"Solo Leveling",
+            link:"solo-leveling.html"
+        },
 
-            if(title.includes(input)){
-                card.style.display = "block";
-            }else{
-                card.style.display = "none";
-            }
+        {
+            title:"Omniscient Reader",
+            link:"orv.html"
+        },
+
+        {
+            title:"Nano Machine",
+            link:"nano-machine.html"
+        },
+
+        {
+            title:"TBATE",
+            link:"tbate.html"
+        }
+
+    ];
+
+    manhwa.forEach(item => {
+
+        if(
+            item.title.toLowerCase()
+            .includes(input)
+            &&
+            input !== ""
+        ){
+
+            results.innerHTML += `
+            <div class="search-result"
+            onclick="location.href='${item.link}'">
+
+                ${item.title}
+
+            </div>
+            `;
 
         }
 
