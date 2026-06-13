@@ -356,7 +356,11 @@ function toggleSearch(){
 </div>
 </header>
     <div id="searchBox" class="search-box-hidden">
-    <input type="text" placeholder="Search manga...">
+    <input
+    id="searchInput"
+    type="text"
+    placeholder="Search manhwa..."
+    onkeyup="searchManhwa()">
 </div>
     <div id="sidebar" class="sidebar">
 
@@ -446,6 +450,7 @@ style="cursor:pointer;">
     <div class="grid">
 
         <div class="card"
+data-title="solo leveling"
 onclick="location.href='solo-leveling.html'">
             <img src="solo.png" alt="">
             <div class="card" onclick="location.href='solo-leveling.html'">
