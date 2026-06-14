@@ -489,68 +489,58 @@ window.logoutUser = async function(){
   await signOut(auth);
 
 }
+const modal = document.getElementById("loginModal");
 
-const commentUser =
-document.getElementById("commentUser");
-
-if(user){
-
-  const userDoc = await getDoc(
-    doc(db, "users", user.uid)
-  );
-
-  commentUser.innerHTML = `
-    <div class="comment-profile">
-      👤 ${userDoc.data().username}
-    </div>
-  `;
-
-}else{
-
-  commentUser.innerHTML = `
-    <div class="comment-profile">
-      🔒 Login to comment
-    </div>
-  `;
-
-}
-const modal =
-document.getElementById("loginModal");
-
-document
-.getElementById("openLoginBtn")
-.onclick = () => {
-
-  modal.style.display = "block";
-
-};
-
-document
-.getElementById("closeModal")
-.onclick = () => {
-
+document.getElementById("closeModal").onclick = () => {
   modal.style.display = "none";
-
 };
-   if(user){
 
-  commentUser.innerHTML = `
-    👤 ${userDoc.data().username}
-  `;
+onAuthStateChanged(auth, async (user) => {
 
-}else{
+  const commentUser =
+    document.getElementById("commentUser");
 
-  commentUser.innerHTML = `
-    <a href="#" id="showLogin">
-      🔒 Login to comment
-    </a>
-  `;
+  const panel =
+    document.getElementById("userPanel");
 
-  document.getElementById("showLogin")
-    .onclick = () => {
-      modal.style.display = "block";
-    };
-} 
+  if(user){
+
+    const userDoc = await getDoc(
+      doc(db, "users", user.uid)
+    );
+
+    const username =
+      userDoc.data().username;
+
+    commentUser.innerHTML =
+      `👤 ${username}`;
+
+    panel.innerHTML = `
+      <button onclick="logoutUser()" class="auth-btn">
+        Logout
+      </button>
+    `;
+
+    modal.style.display = "none";
+
+  }else{
+
+    commentUser.innerHTML = `
+      <a href="#" id="showLogin">
+        🔒 Login to comment
+      </a>
+    `;
+
+    panel.innerHTML = "";
+
+    document.getElementById("showLogin")
+      .onclick = () => {
+        modal.style.display = "block";
+      };
+
+  }
+
+});
 </script>
 </body>
 </html>
