@@ -315,10 +315,19 @@ header{
 <textarea id="commentInput"
 placeholder="Write a comment..."></textarea>
 
-<button class="post-btn"
-onclick="postComment()">
-  Post Comment
-</button>
+<div style="display:flex;gap:10px;margin-top:10px;">
+    
+    <button class="post-btn"
+    onclick="postComment()">
+      Post Comment
+    </button>
+
+    <button id="showLoginBtn"
+    class="post-btn">
+      Login
+    </button>
+
+</div>
 
 <div id="commentList"></div>
 
@@ -503,8 +512,13 @@ onAuthStateChanged(auth, async (user) => {
   const panel =
     document.getElementById("userPanel");
 
+   const loginBtn =
+  document.getElementById("showLoginBtn");
+    
   if(user){
 
+      loginBtn.style.display = "none";
+      
     const userDoc = await getDoc(
       doc(db, "users", user.uid)
     );
@@ -512,19 +526,39 @@ onAuthStateChanged(auth, async (user) => {
     const username =
       userDoc.data().username;
 
-    commentUser.innerHTML =
-      `👤 ${username}`;
+    commentUser.innerHTML = `
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+  ">
+    <span>👤 ${username}</span>
 
-    panel.innerHTML = `
-      <button onclick="logoutUser()" class="auth-btn">
-        Logout
-      </button>
-    `;
+    <button
+      onclick="logoutUser()"
+      style="
+        background:none;
+        border:none;
+        color:#ff2e63;
+        cursor:pointer;
+      ">
+      Logout
+    </button>
+  </div>
+`;
+    panel.innerHTML = "";
 
     modal.style.display = "none";
 
   }else{
 
+      loginBtn.style.display = "block";
+
+loginBtn.onclick = () => {
+  modal.style.display = "block";
+};
+      
     commentUser.innerHTML = `
       <a href="#" id="showLogin">
         🔒 Login to comment
