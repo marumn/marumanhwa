@@ -410,10 +410,11 @@ const name = userDoc.data().username;
   }
 
   await addDoc(collection(db, chapterId), {
-    name,
-    comment,
-    time: Date.now()
-  });
+  name,
+  profilePic: userDoc.data().profilePic,
+  comment,
+  time: Date.now()
+});
 
   document.getElementById("commentInput").value = "";
 };
@@ -433,16 +434,39 @@ onSnapshot(q, (snapshot) => {
     const data = doc.data();
 
     commentList.innerHTML += `
-      <div style="
-        background:#1a1a1a;
-        border:1px solid #333;
-        padding:12px;
-        margin-top:10px;
-        border-radius:8px;">
-          <strong>${data.name}</strong>
-          <p>${data.comment}</p>
-      </div>
-    `;
+<div style="
+  background:#1a1a1a;
+  border:1px solid #333;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+">
+
+  <div style="
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+  ">
+
+    <img
+      src="${data.profilePic}"
+      style="
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        object-fit:cover;
+      "
+    >
+
+    <strong>${data.name}</strong>
+
+  </div>
+
+  <p>${data.comment}</p>
+
+</div>
+`;
   });
 });
     window.registerUser = async function(){
@@ -461,7 +485,8 @@ onSnapshot(q, (snapshot) => {
 await setDoc(
   doc(db, "users", user.uid),
   {
-    username: document.getElementById("username").value
+    username: document.getElementById("username").value,
+    profilePic: "../../../../../assets/profile.png"
   }
 );
 
@@ -533,7 +558,18 @@ onAuthStateChanged(auth, async (user) => {
     align-items:center;
     margin-bottom:10px;
   ">
-    <span>👤 ${username}</span>
+    <div style="display:flex;align-items:center;gap:8px;">
+  <img
+    src="../../../../../assets/profile.png"
+    style="
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      object-fit:cover;
+    "
+  >
+  <span>${username}</span>
+</div>
 
     <button
       onclick="logoutUser()"
