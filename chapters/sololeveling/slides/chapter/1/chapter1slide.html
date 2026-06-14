@@ -199,10 +199,17 @@ header{
 <div class="section comments">
 <h2>Comments</h2>
 
-<input type="text" placeholder="Your Name">
-<textarea placeholder="Write a comment..."></textarea>
+<input id="nameInput" type="text" placeholder="Your Name">
 
-<button class="post-btn">Post Comment</button>
+<textarea id="commentInput"
+placeholder="Write a comment..."></textarea>
+
+<button class="post-btn"
+onclick="postComment()">
+  Post Comment
+</button>
+
+<div id="commentList"></div>
 
 </div>
 
@@ -223,6 +230,81 @@ function prevChapter(){
     }
 }
 </script>
+<script type="module">
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBuSkc3-fGy0kHV2_D3eVNNYkFkG2LWnbg",
+  authDomain: "maru-manhwa.firebaseapp.com",
+  projectId: "maru-manhwa",
+  storageBucket: "maru-manhwa.firebasestorage.app",
+  messagingSenderId: "431200871834",
+  appId: "1:431200871834:web:468b9b694099c87587c623"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+    const chapterId = "solo-leveling-chapter-1";
+
+window.postComment = async function() {
+
+  const name = document.getElementById("nameInput").value;
+  const comment = document.getElementById("commentInput").value;
+
+  if (!name.trim() || !comment.trim()) {
+    alert("Please fill in both fields.");
+    return;
+  }
+
+  await addDoc(collection(db, chapterId), {
+    name,
+    comment,
+    time: Date.now()
+  });
+
+  document.getElementById("nameInput").value = "";
+  document.getElementById("commentInput").value = "";
+};
+
+const q = query(
+  collection(db, chapterId),
+  orderBy("time", "desc")
+);
+
+onSnapshot(q, (snapshot) => {
+
+  const commentList = document.getElementById("commentList");
+  commentList.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+
+    const data = doc.data();
+
+    commentList.innerHTML += `
+      <div style="
+        background:#1a1a1a;
+        border:1px solid #333;
+        padding:12px;
+        margin-top:10px;
+        border-radius:8px;">
+          <strong>${data.name}</strong>
+          <p>${data.comment}</p>
+      </div>
+    `;
+  });
+});
+
+</script>
 </body>
 </html>
