@@ -227,6 +227,11 @@ header{
     margin:15px auto;
     text-align:center;
 }
+    .comment-profile{
+    margin-bottom:10px;
+    color:#ff2e63;
+    font-weight:700;
+}
 </style>
 </head>
 
@@ -307,6 +312,8 @@ header{
 <!-- COMMENTS -->
 <div class="section comments">
 <h2>Comments</h2>
+
+    <div id="commentUser"></div>
 
 <textarea id="commentInput"
 placeholder="Write a comment..."></textarea>
@@ -486,46 +493,30 @@ window.logoutUser = async function(){
 
 }
 
-onAuthStateChanged(auth,(user)=>{
+const commentUser =
+document.getElementById("commentUser");
 
-  const panel =
-  document.getElementById("userPanel");
+if(user){
 
-  const loginBtn =
-  document.getElementById("openLoginBtn");
+  const userDoc = await getDoc(
+    doc(db, "users", user.uid)
+  );
 
-  if(user){
+  commentUser.innerHTML = `
+    <div class="comment-profile">
+      👤 ${userDoc.data().username}
+    </div>
+  `;
 
-    loginBtn.style.display = "none";
+}else{
 
-    panel.innerHTML = `
-      <div style="
-        background:#1a1a1a;
-        border:1px solid rgba(255,46,99,.3);
-        padding:12px;
-        border-radius:10px;
-      ">
-        👤 ${user.email}
+  commentUser.innerHTML = `
+    <div class="comment-profile">
+      🔒 Login to comment
+    </div>
+  `;
 
-        <br><br>
-
-        <button
-          onclick="logoutUser()"
-          class="auth-btn">
-          Logout
-        </button>
-      </div>
-    `;
-
-  }else{
-
-    loginBtn.style.display = "block";
-
-    panel.innerHTML = "";
-
-  }
-
-});
+}
 const modal =
 document.getElementById("loginModal");
 
