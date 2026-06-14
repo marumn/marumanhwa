@@ -272,8 +272,38 @@ header{
     <button>🔥 0</button>
 </div>
 </div>
+<button id="openLoginBtn" class="login-btn">
+  Login to Comment
+</button>
 
-<div class="section comments
+<div id="loginModal" class="modal">
+
+  <div class="modal-box">
+
+    <span id="closeModal">&times;</span>
+
+    <h2>MARU MANHWA</h2>
+
+    <input id="username" type="text" placeholder="Username">
+
+    <input id="email" type="email" placeholder="Email">
+
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="loginUser()" class="auth-btn">
+      Login
+    </button>
+
+    <button onclick="registerUser()" class="auth-btn secondary">
+      Register
+    </button>
+
+  </div>
+
+</div>
+
+<div id="userPanel"></div>
+
 <!-- COMMENTS -->
 <div class="section comments">
 <h2>Comments</h2>
