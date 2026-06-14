@@ -362,13 +362,24 @@ Post Comment
 </footer>
 <script>
 const chapterList = document.getElementById("chapterList");
-for(let i = 201; i >= 1; i--){
-chapterList.innerHTML += `
-<a href="chapter-${i}.html" class="chapter">
-Chapter ${i}
+
+chapterList.innerHTML = `
+<a href="../reader.html" class="chapter">
+Chapter 1
 </a>
+
+<div class="chapter">
+Chapter 2 (Coming Soon)
+</div>
+
+<div class="chapter">
+Chapter 3 (Coming Soon)
+</div>
+
+<div class="chapter">
+Chapter 4 (Coming Soon)
+</div>
 `;
-}
 </script>
     <script>
 function toggleMenu(){
