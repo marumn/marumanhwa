@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo Leveling</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#0f0f0f;
+    color:white;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 15px;
+    background:#1a1a1a;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid rgba(255,46,99,.2);
+}
+
+.logo-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-wrap img{
+    width:32px;
+    height:32px;
+}
+
+.logo{
+    color:#ff2e63;
+    font-weight:800;
+    font-size:18px;
+}
+
+/* NAV BUTTONS */
+.nav-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.nav-buttons button{
+    background:#242424;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.nav-buttons button:hover{
+    background:#333;
+}
+
+/* READER */
+.reader{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.page{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.page img{
+    width:100%;
+    display:block;
+    border-radius:6px;
+}
+
+/* REACTIONS */
+.section{
+    padding:20px;
+    max-width:900px;
+    margin:auto;
+}
+
+.reactions button{
+    background:#1a1a1a;
+    border:1px solid #333;
+    color:white;
+    padding:10px 15px;
+    margin-right:10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* COMMENTS */
+.comments input,
+.comments textarea{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    background:#1a1a1a;
+    border:1px solid #333;
+    color:white;
+    border-radius:6px;
+}
+
+.comments textarea{
+    height:100px;
+    resize:none;
+}
+
+.post-btn{
+    margin-top:10px;
+    background:#ff2e63;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.post-btn:hover{
+    background:#ff4b7a;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo-wrap">
+        <img src="../../../../../../assets/logo.png" alt="">
+        <div class="logo">MARU MANHWA</div>
+    </div>
+
+    <div class="nav-buttons">
+        <button onclick="history.back()">⬅ Back</button>
+        <button onclick="prevChapter()">⬅ Prev Chapter</button>
+        <button onclick="nextChapter()">Next Chapter ➡</button>
+    </div>
+</header>
+
+<!-- READER (IMAGES) -->
+<div class="reader" id="reader">
+
+    <!-- Example images (you will replace dynamically or manually) -->
+    <div class="page"><img src="../../../slidefiles/solo-1-1.png"></div>
+    <div class="page"><img src="covers/solo/solo-1-2.png"></div>
+    <div class="page"><img src="covers/solo/solo-1-3.png"></div>
+
+</div>
+
+<!-- REACTIONS -->
+<div class="section">
+<h2>Reactions</h2>
+<div class="reactions">
+    <button>👍 10</button>
+    <button>❤️ 0</button>
+    <button>🔥 0</button>
+</div>
+</div>
+
+<!-- COMMENTS -->
+<div class="section comments">
+<h2>Comments</h2>
+
+<input type="text" placeholder="Your Name">
+<textarea placeholder="Write a comment..."></textarea>
+
+<button class="post-btn">Post Comment</button>
+
+</div>
+
+<script>
+// chapter system (basic example)
+let chapter = 1;
+
+function nextChapter(){
+    chapter++;
+    alert("Go to chapter " + chapter);
+    // later you will link: location.href = `solo-${chapter}.html`
+}
+
+function prevChapter(){
+    if(chapter > 1){
+        chapter--;
+        alert("Go to chapter " + chapter);
+    }
+}
+</script>
+
+</body>
+</html>
