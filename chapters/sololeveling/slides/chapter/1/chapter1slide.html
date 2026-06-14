@@ -277,9 +277,6 @@ header{
     <button>🔥 0</button>
 </div>
 </div>
-<button id="openLoginBtn" class="login-btn">
-  Login to Comment
-</button>
 
 <div id="loginModal" class="modal">
 
@@ -535,6 +532,25 @@ document
   modal.style.display = "none";
 
 };
+   if(user){
+
+  commentUser.innerHTML = `
+    👤 ${userDoc.data().username}
+  `;
+
+}else{
+
+  commentUser.innerHTML = `
+    <a href="#" id="showLogin">
+      🔒 Login to comment
+    </a>
+  `;
+
+  document.getElementById("showLogin")
+    .onclick = () => {
+      modal.style.display = "block";
+    };
+} 
 </script>
 </body>
 </html>
