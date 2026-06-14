@@ -195,11 +195,29 @@ header{
 </div>
 </div>
 
+    <h2>Account</h2>
+
+<div id="authBox">
+
+    <input id="username" type="text" placeholder="Username">
+
+  <input id="email" type="email" placeholder="Email">
+
+  <input id="password" type="password" placeholder="Password">
+
+  <button onclick="registerUser()">Register</button>
+
+  <button onclick="loginUser()">Login</button>
+
+  <button onclick="logoutUser()">Logout</button>
+
+  <p id="userStatus">Not logged in</p>
+
+</div>
+
 <!-- COMMENTS -->
 <div class="section comments">
 <h2>Comments</h2>
-
-<input id="nameInput" type="text" placeholder="Your Name">
 
 <textarea id="commentInput"
 placeholder="Write a comment..."></textarea>
@@ -240,8 +258,20 @@ import {
   addDoc,
   query,
   orderBy,
-  onSnapshot
+  onSnapshot,
+  doc,
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+    import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBuSkc3-fGy0kHV2_D3eVNNYkFkG2LWnbg",
@@ -254,15 +284,25 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+    const auth = getAuth(app);
 
     const chapterId = "solo-leveling-chapter-1";
 
 window.postComment = async function() {
 
-  const name = document.getElementById("nameInput").value;
+  if(!auth.currentUser){
+    alert("Please login first.");
+    return;
+  }
+
+  const userDoc = await getDoc(
+  doc(db, "users", auth.currentUser.uid)
+);
+
+const name = userDoc.data().username;
   const comment = document.getElementById("commentInput").value;
 
-  if (!name.trim() || !comment.trim()) {
+  if (!comment.trim()) {
     alert("Please fill in both fields.");
     return;
   }
@@ -273,7 +313,6 @@ window.postComment = async function() {
     time: Date.now()
   });
 
-  document.getElementById("nameInput").value = "";
   document.getElementById("commentInput").value = "";
 };
 
@@ -303,6 +342,74 @@ onSnapshot(q, (snapshot) => {
       </div>
     `;
   });
+});
+    window.registerUser = async function(){
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try{
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+      const user = auth.currentUser;
+
+await setDoc(
+  doc(db, "users", user.uid),
+  {
+    username: document.getElementById("username").value
+  }
+);
+
+    alert("Account created!");
+
+  }catch(err){
+    alert(err.message);
+  }
+
+}
+
+window.loginUser = async function(){
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try{
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    alert("Logged in!");
+
+  }catch(err){
+    alert(err.message);
+  }
+
+}
+
+window.logoutUser = async function(){
+
+  await signOut(auth);
+
+}
+
+onAuthStateChanged(auth,(user)=>{
+
+  const status =
+  document.getElementById("userStatus");
+
+  if(user){
+    status.textContent =
+    "Logged in as: " + user.email;
+  }else{
+    status.textContent =
+    "Not logged in";
+  }
+
 });
 
 </script>
