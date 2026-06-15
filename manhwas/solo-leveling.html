@@ -253,7 +253,52 @@ footer a{
     cursor:pointer;
     float:right;
 }
+
+    .section{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
 }
+
+.reactions button{
+  background:#1a1a1a;
+  border:1px solid #333;
+  color:white;
+  padding:10px 15px;
+  margin-right:10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.comments textarea{
+  width:100%;
+  height:100px;
+  margin-top:10px;
+  padding:10px;
+  background:#1a1a1a;
+  border:1px solid #333;
+  color:white;
+  border-radius:6px;
+  resize:none;
+}
+
+.post-btn{
+  margin-top:10px;
+  padding:10px 15px;
+  background:#ff2e63;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+#commentList div{
+  background:#1a1a1a;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+}
+    
 </style>
 </head>
 <body>
@@ -322,21 +367,24 @@ his rise to become the strongest hunter alive.
 <div class="chapter-list" id="chapterList"></div>
 </div>
 <div class="section">
-<h2>Reactions</h2>
-<div class="reactions">
-<button>👍 10</button>
-<button>❤️ 0</button>
-<button>🔥 0</button>
+  <h2>Reactions</h2>
+  <div class="reactions">
+    <button onclick="react('like')">👍 <span id="likeCount">0</span></button>
+    <button onclick="react('love')">❤️ <span id="loveCount">0</span></button>
+    <button onclick="react('fire')">🔥 <span id="fireCount">0</span></button>
+  </div>
 </div>
-</div>
+
 <div class="section comments">
-<h2>Comments</h2>
-<input type="text" placeholder="Your Name">
-<textarea placeholder="Write a comment..."></textarea>
+  <h2>Comments</h2>
 
-Post Comment
+  <textarea id="commentInput" placeholder="Write a comment..."></textarea>
 
+  <button class="post-btn" onclick="postComment()">Post Comment</button>
+
+  <div id="commentList"></div>
 </div>
+    
 <div class="section">
 <h2>Recommended Manhwa</h2>
 <div class="recommended-grid">
@@ -386,6 +434,107 @@ function toggleMenu(){
     document.getElementById("sidebar")
     .classList.toggle("active");
 }
+
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, query, orderBy, onSnapshot, where } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const db = getFirestore();
+const auth = getAuth();
+
+/* 🔥 ONLY CHANGE THIS PER PAGE */
+const chapterId = "solo-leveling";
+
+/* ================= REACTIONS ================= */
+const reactionRef = doc(db, "reactions", chapterId);
+
+window.react = async function(type){
+
+  const user = auth.currentUser;
+  if(!user) return alert("Login first");
+
+  const uid = user.uid;
+
+  const snap = await getDoc(reactionRef);
+
+  let data = snap.exists() ? snap.data() : {
+    like: [],
+    love: [],
+    fire: []
+  };
+
+  if(data[type].includes(uid)){
+    data[type] = data[type].filter(id => id !== uid);
+  } else {
+    data[type].push(uid);
+  }
+
+  await setDoc(reactionRef, data);
+  loadReactions();
+};
+
+async function loadReactions(){
+  const snap = await getDoc(reactionRef);
+
+  const data = snap.exists() ? snap.data() : {
+    like: [],
+    love: [],
+    fire: []
+  };
+
+  document.getElementById("likeCount").innerText = data.like.length;
+  document.getElementById("loveCount").innerText = data.love.length;
+  document.getElementById("fireCount").innerText = data.fire.length;
+}
+
+loadReactions();
+
+/* ================= COMMENTS ================= */
+
+window.postComment = async function(){
+
+  if(!auth.currentUser) return alert("Login first");
+
+  const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+  const user = userDoc.data();
+
+  const text = document.getElementById("commentInput").value;
+
+  if(!text.trim()) return alert("Write something");
+
+  await addDoc(collection(db, "comments"), {
+    chapter: chapterId,
+    name: user.username,
+    profilePic: user.profilePic,
+    comment: text,
+    time: Date.now()
+  });
+
+  document.getElementById("commentInput").value = "";
+};
+
+/* LOAD COMMENTS */
+const q = query(
+  collection(db, "comments"),
+  where("chapter", "==", chapterId),
+  orderBy("time", "desc")
+);
+
+onSnapshot(q, (snapshot)=>{
+  const list = document.getElementById("commentList");
+  list.innerHTML = "";
+
+  snapshot.forEach(doc=>{
+    const d = doc.data();
+
+    list.innerHTML += `
+      <div>
+        <strong>${d.name}</strong>
+        <p>${d.comment}</p>
+      </div>
+    `;
+  });
+});
 </script>
 </body>
 </html>
