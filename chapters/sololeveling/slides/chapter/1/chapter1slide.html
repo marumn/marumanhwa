@@ -397,11 +397,15 @@ window.postComment = async function() {
     return;
   }
 
-  const userDoc = await getDoc(
-  doc(db, "users", auth.currentUser.uid)
-);
+const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
 
-const name = userDoc.data().username;
+if (!userDoc.exists()) {
+  alert("User profile missing in Firestore");
+  return;
+}
+
+const data = userDoc.data();
+const name = data.username || "Anonymous";
   const comment = document.getElementById("commentInput").value;
 
   if (!comment.trim()) {
@@ -411,7 +415,7 @@ const name = userDoc.data().username;
 
   await addDoc(collection(db, chapterId), {
   name,
-  profilePic: userDoc.data().profilePic,
+  profilePic: data.profilePic || "../../../../../assets/profile.png",
   comment,
   time: Date.now()
 });
