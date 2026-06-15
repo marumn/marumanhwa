@@ -296,7 +296,7 @@ header{
   Login
 </button>
 
-<button id="registerBtn" onclick="registerUser()" class="auth-btn secondary" style="display:none;">
+<button id="registerBtn" onclick="registerUser()" class="auth-btn" style="display:none;">
   Register
 </button>
 
@@ -636,6 +636,7 @@ loginBtn.onclick = () => {
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
   const toggleText = document.getElementById("toggleText");
+  const username = document.getElementById("username");
 
   isLoginMode = !isLoginMode;
 
@@ -643,10 +644,14 @@ loginBtn.onclick = () => {
     loginBtn.style.display = "block";
     registerBtn.style.display = "none";
 
+    username.style.display = "none";
+
     toggleText.innerText = "Don't have an account? Create one";
   } else {
     loginBtn.style.display = "none";
     registerBtn.style.display = "block";
+
+    username.style.display = "block";
 
     toggleText.innerText = "Already have an account? Login";
   }
