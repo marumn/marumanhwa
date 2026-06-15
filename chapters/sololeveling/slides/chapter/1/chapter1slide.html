@@ -286,7 +286,7 @@ header{
 
     <h2>MARU MANHWA</h2>
 
-    <input id="username" type="text" placeholder="Username">
+    <input id="username" type="text" placeholder="Username" style="display:none;">
 
     <input id="email" type="email" placeholder="Email">
 
@@ -299,6 +299,11 @@ header{
     <button onclick="registerUser()" class="auth-btn secondary">
       Register
     </button>
+      
+      <p style="text-align:center;margin-top:10px;cursor:pointer;color:#ff2e63;"
+onclick="toggleMode()">
+  Don't have an account? Create one
+</p>
 
   </div>
 
@@ -475,30 +480,43 @@ onSnapshot(q, (snapshot) => {
 });
     window.registerUser = async function(){
 
+  window.registerUser = async function(){
+
+  const username = document.getElementById("username").value;
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  try{
-    await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-      const user = auth.currentUser;
-
-await setDoc(
-  doc(db, "users", user.uid),
-  {
-    username: document.getElementById("username").value,
-    profilePic: "../../../../../assets/profile.png"
+  if (!username.trim()) {
+    alert("Username is required!");
+    return;
   }
-);
+
+  if (!email.trim() || !password.trim()) {
+    alert("Email and password are required!");
+    return;
+  }
+
+  if (password.length < 6) {
+    alert("Password must be at least 6 characters!");
+    return;
+  }
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+
+    const user = auth.currentUser;
+
+    await setDoc(doc(db, "users", user.uid), {
+      username: username,
+      profilePic: "../../../../../assets/profile.png"
+    });
 
     alert("Account created!");
 
-  }catch(err){
+  } catch (err) {
     alert(err.message);
   }
+};
 
 }
 
@@ -611,6 +629,17 @@ loginBtn.onclick = () => {
   }
 
 });
+    let isLoginMode = true;
+    window.toggleMode = function () {
+
+  isLoginMode = !isLoginMode;
+
+  document.getElementById("username").style.display =
+    isLoginMode ? "none" : "block";
+
+  document.querySelector(".auth-btn").innerText =
+    isLoginMode ? "Login" : "Register";
+};
 </script>
 </body>
 </html>
