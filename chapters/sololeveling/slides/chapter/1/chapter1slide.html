@@ -272,9 +272,9 @@ header{
 <div class="section">
 <h2>Reactions</h2>
 <div class="reactions">
-    <button>👍 10</button>
-    <button>❤️ 0</button>
-    <button>🔥 0</button>
+    <button onclick="react('like')">👍 <span id="likeCount">0</span></button>
+    <button onclick="react('love')">❤️ <span id="loveCount">0</span></button>
+    <button onclick="react('fire')">🔥 <span id="fireCount">0</span></button>
 </div>
 </div>
 
@@ -358,6 +358,8 @@ function prevChapter(){
 </script>
 <script type="module">
 
+    import { updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
 import {
@@ -396,6 +398,53 @@ const db = getFirestore(app);
 
     const chapterId = "solo-leveling-chapter-1";
 
+    const reactionRef = doc(db, "reactions", chapterId);
+
+    window.react = async function(type) {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please login first");
+    return;
+  }
+
+  const uid = user.uid;
+
+  const snap = await getDoc(reactionRef);
+
+  let data = snap.exists() ? snap.data() : {
+    like: [],
+    love: [],
+    fire: []
+  };
+
+  if (data[type].includes(uid)) {
+    data[type] = data[type].filter(id => id !== uid);
+  } else {
+    data[type].push(uid);
+  }
+
+  await setDoc(reactionRef, data);
+
+  loadReactions();
+};
+
+    async function loadReactions() {
+
+  const snap = await getDoc(reactionRef);
+
+  const data = snap.exists() ? snap.data() : {
+    like: [],
+    love: [],
+    fire: []
+  };
+
+  document.getElementById("likeCount").innerText = data.like.length;
+  document.getElementById("loveCount").innerText = data.love.length;
+  document.getElementById("fireCount").innerText = data.fire.length;
+}
+    
 window.postComment = async function() {
 
   if(!auth.currentUser){
@@ -632,6 +681,8 @@ loginBtn.onclick = () => {
 });
     let isLoginMode = true;
     window.toggleMode = function () {
+
+        loadReactions();
 
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
