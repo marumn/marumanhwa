@@ -292,15 +292,16 @@ header{
 
     <input id="password" type="password" placeholder="Password">
 
-    <button onclick="loginUser()" class="auth-btn">
-      Login
-    </button>
+   <button id="loginBtn" onclick="loginUser()" class="auth-btn">
+  Login
+</button>
 
-    <button onclick="registerUser()" class="auth-btn secondary">
-      Register
-    </button>
-      
-      <p style="text-align:center;margin-top:10px;cursor:pointer;color:#ff2e63;"
+<button id="registerBtn" onclick="registerUser()" class="auth-btn secondary" style="display:none;">
+  Register
+</button>
+
+<p id="toggleText"
+style="text-align:center;margin-top:10px;cursor:pointer;color:#ff2e63;text-decoration:underline;"
 onclick="toggleMode()">
   Don't have an account? Create one
 </p>
@@ -632,13 +633,23 @@ loginBtn.onclick = () => {
     let isLoginMode = true;
     window.toggleMode = function () {
 
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+  const toggleText = document.getElementById("toggleText");
+
   isLoginMode = !isLoginMode;
 
-  document.getElementById("username").style.display =
-    isLoginMode ? "none" : "block";
+  if (isLoginMode) {
+    loginBtn.style.display = "block";
+    registerBtn.style.display = "none";
 
-  document.querySelector(".auth-btn").innerText =
-    isLoginMode ? "Login" : "Register";
+    toggleText.innerText = "Don't have an account? Create one";
+  } else {
+    loginBtn.style.display = "none";
+    registerBtn.style.display = "block";
+
+    toggleText.innerText = "Already have an account? Login";
+  }
 };
 </script>
 </body>
