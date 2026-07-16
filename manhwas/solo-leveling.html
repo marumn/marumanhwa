@@ -184,32 +184,46 @@ z-index:1000;
 }
 
 .modal-box{
-    width:100%;
-    max-width:400px;
+    width:90%;
+    max-width:420px;
     background:#1a1a1a;
-    border-radius:15px;
-    padding:25px;
+    border:1px solid #333;
+    border-radius:16px;
+    padding:28px;
+    box-shadow:0 15px 50px rgba(0,0,0,.6);
 }
 
 .modal-box input{
     width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:none;
-    border-radius:10px;
-    background:#2a2a2a;
+    padding:14px;
+    margin-bottom:14px;
+    background:#242424;
     color:white;
+    border:1px solid #333;
+    border-radius:10px;
+    font-size:15px;
+}
+
+.modal-box input:focus{
+    outline:none;
+    border-color:#ff2e63;
 }
 
 .auth-btn{
     width:100%;
-    margin-top:10px;
-    padding:12px;
-    border:none;
-    border-radius:10px;
+    padding:14px;
+    margin-top:8px;
     background:#ff2e63;
     color:white;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
     cursor:pointer;
+}
+
+.auth-btn:hover{
+    background:#ff4d7d;
 }
 
 .secondary{
@@ -218,8 +232,36 @@ z-index:1000;
 
 #closeModal{
     float:right;
+    font-size:28px;
     cursor:pointer;
-    font-size:25px;
+    color:#aaa;
+}
+
+#closeModal:hover{
+    color:white;
+}
+    #modalTitle{
+    text-align:center;
+    margin-bottom:20px;
+    color:#ff2e63;
+    font-size:28px;
+}
+
+#switchText{
+    margin-top:18px;
+    text-align:center;
+    color:#bfbfbf;
+    font-size:15px;
+}
+
+#switchMode{
+    color:#ff2e63;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+#switchMode:hover{
+    text-decoration:underline;
 }
 footer{
     margin-top:40px;
@@ -461,22 +503,31 @@ his rise to become the strongest hunter alive.
 </div>
 
 <!-- 🔐 LOGIN MODAL -->
+<!-- 🔐 LOGIN MODAL -->
 <div id="loginModal" class="modal">
   <div class="modal-box">
+
     <span id="closeModal">&times;</span>
 
-    <h2>Login</h2>
+    <h2 id="modalTitle">Login</h2>
 
-    <input id="username" type="text" placeholder="Username">
+    <input id="username" type="text" placeholder="Username" style="display:none;">
+
     <input id="email" type="email" placeholder="Email">
+
     <input id="password" type="password" placeholder="Password">
 
-    <button id="loginBtn" class="auth-btn">Login</button>
-    <button id="registerBtn" class="auth-btn secondary">Register</button>
+    <button id="submitBtn" class="auth-btn">
+      Login
+    </button>
 
-    <p id="toggleText" style="text-align:center;cursor:pointer;color:#ff2e63;">
-      Switch mode
+    <p id="switchText" style="text-align:center;margin-top:15px;">
+      Don't have an account?
+      <span id="switchMode" style="color:#ff2e63;cursor:pointer;font-weight:bold;">
+        Register here
+      </span>
     </p>
+
   </div>
 </div>
 
