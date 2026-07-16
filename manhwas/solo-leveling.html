@@ -147,29 +147,6 @@ body{
     border-radius:10px;
     cursor:pointer;
 }
-.comments input,
-.comments textarea{
-    width:100%;
-    background:#242424;
-    color:white;
-    border:none;
-    border-radius:10px;
-    padding:12px;
-    margin-top:10px;
-}
-.comments textarea{
-    height:120px;
-    resize:none;
-}
-.comments button{
-    margin-top:10px;
-    background:#ff2e63;
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:10px;
-    cursor:pointer;
-}
 .recommended-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -199,6 +176,16 @@ footer a{
     color:#ff2e63;
     text-decoration:none;
 }
+    .menu-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:8px;
+    background:#242424;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
 @media(max-width:768px){
     .info-box{
         flex-direction:column;
@@ -210,16 +197,7 @@ footer a{
     .banner-content h1{
         font-size:32px;
     }
-    .menu-btn{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:8px;
-    background:#242424;
-    color:white;
-    font-size:20px;
-    cursor:pointer;
-}
+
 
 .sidebar{
     position:fixed;
@@ -270,35 +248,102 @@ footer a{
   cursor:pointer;
 }
 
-.comments textarea{
-  width:100%;
-  height:100px;
-  margin-top:10px;
-  padding:10px;
-  background:#1a1a1a;
-  border:1px solid #333;
-  color:white;
-  border-radius:6px;
-  resize:none;
+
+    .community{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
 }
 
-.post-btn{
-  margin-top:10px;
-  padding:10px 15px;
-  background:#ff2e63;
-  color:white;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-#commentList div{
-  background:#1a1a1a;
-  padding:12px;
-  margin-top:10px;
-  border-radius:8px;
+.login-btn{
+    width:100%;
+    background:#ff2e63;
+    color:white;
+    border:none;
+    padding:15px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
 }
     
+.reaction-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.reaction-btn{
+    background:#242424;
+    border:1px solid #333;
+    color:white;
+    border-radius:12px;
+    padding:16px;
+    cursor:pointer;
+    font-size:20px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+
+    transition:.2s;
+}
+
+.reaction-btn:hover{
+    background:#2f2f2f;
+    border-color:#ff2e63;
+}
+
+#userPanel{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.user-info img{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+}
+
+.logout-btn{
+    background:#333;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+}
+@media(max-width:768px){
+
+.reaction-grid{
+    grid-template-columns:1fr;
+}
+
+.reaction-btn{
+    width:100%;
+}
+
+.user-info{
+    width:100%;
+}
+
+.logout-btn{
+    width:100%;
+}
+
+}
 </style>
 </head>
 <body>
@@ -366,8 +411,6 @@ his rise to become the strongest hunter alive.
 <h2>Chapters</h2>
 <div class="chapter-list" id="chapterList"></div>
 </div>
-<!-- 🔐 LOGIN BUTTON -->
-<button id="openLogin" class="login-btn">Login / Register</button>
 
 <!-- 🔐 LOGIN MODAL -->
 <div id="loginModal" class="modal">
@@ -389,27 +432,35 @@ his rise to become the strongest hunter alive.
   </div>
 </div>
 
-<!-- 👤 USER INFO -->
-<div id="userPanel"></div>
+<div class="section community">
 
-<!-- 🔥 REACTIONS -->
-<div class="section">
-  <h2>Reactions</h2>
+    <h2>Community</h2>
 
-  <button onclick="react('like')">👍 <span id="likeCount">0</span></button>
-  <button onclick="react('love')">❤️ <span id="loveCount">0</span></button>
-  <button onclick="react('fire')">🔥 <span id="fireCount">0</span></button>
-</div>
+    <div id="userPanel"></div>
 
-<!-- 💬 COMMENTS -->
-<div class="section">
-  <h2>Comments</h2>
+    <button id="openLogin" class="login-btn">
+        Login to React
+    </button>
 
-  <textarea id="commentInput" placeholder="Write a comment..."></textarea>
+    <div class="reaction-grid">
 
-  <button class="post-btn" onclick="postComment()">Post</button>
+        <button class="reaction-btn" onclick="react('like')">
+            👍
+            <span id="likeCount">0</span>
+        </button>
 
-  <div id="commentList"></div>
+        <button class="reaction-btn" onclick="react('love')">
+            ❤️
+            <span id="loveCount">0</span>
+        </button>
+
+        <button class="reaction-btn" onclick="react('fire')">
+            🔥
+            <span id="fireCount">0</span>
+        </button>
+
+    </div>
+
 </div>
     
 <div class="section">
@@ -456,7 +507,7 @@ Chapter 4 (Coming Soon)
 </div>
 `;
 </script>
-    <script>
+    <script type="module">
 function toggleMenu(){
     document.getElementById("sidebar")
     .classList.toggle("active");
@@ -465,15 +516,9 @@ function toggleMenu(){
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {
   getFirestore,
-  collection,
-  addDoc,
   doc,
   setDoc,
-  getDoc,
-  query,
-  orderBy,
-  onSnapshot,
-  where
+  getDoc
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 import {
@@ -534,6 +579,10 @@ window.logout = async () => {
   await signOut(auth);
 };
 
+        document.getElementById("loginBtn").onclick = login;
+document.getElementById("registerBtn").onclick = register;
+        
+
 /* ================= REACTIONS ================= */
 
 const reactionRef = doc(db, "reactions", chapterId);
@@ -578,52 +627,40 @@ async function loadReactions(){
 
 loadReactions();
 
-/* ================= COMMENTS ================= */
+  onAuthStateChanged(auth, async(user)=>{
 
-window.postComment = async function(){
+    const panel=document.getElementById("userPanel");
+    const loginBtn=document.getElementById("openLogin");
 
-  if(!auth.currentUser) return alert("Login first");
+    if(user){
 
-  const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
-  const user = userDoc.data();
+        loginBtn.style.display="none";
 
-  const text = document.getElementById("commentInput").value;
+        const snap=await getDoc(doc(db,"users",user.uid));
+        const data=snap.data();
 
-  if(!text.trim()) return;
+        panel.innerHTML=`
+            <div class="user-info">
+                <img src="${data.profilePic}">
+                <div>
+                    <strong>${data.username}</strong><br>
+                    Logged in
+                </div>
+            </div>
 
-  await addDoc(collection(db, "comments"), {
-    chapter: chapterId,
-    name: user.username,
-    profilePic: user.profilePic,
-    comment: text,
-    time: Date.now()
-  });
+            <button class="logout-btn" onclick="logout()">
+                Logout
+            </button>
+        `;
 
-  document.getElementById("commentInput").value = "";
-};
+    }else{
 
-/* LOAD COMMENTS */
-const q = query(
-  collection(db, "comments"),
-  where("chapter", "==", chapterId),
-  orderBy("time", "desc")
-);
+        panel.innerHTML="";
+        loginBtn.style.display="block";
 
-onSnapshot(q, (snap)=>{
-  const list = document.getElementById("commentList");
-  list.innerHTML = "";
+    }
 
-  snap.forEach(doc=>{
-    const d = doc.data();
-
-    list.innerHTML += `
-      <div>
-        <strong>${d.name}</strong>
-        <p>${d.comment}</p>
-      </div>
-    `;
-  });
-});
+});      
 </script>
 </body>
 </html>
