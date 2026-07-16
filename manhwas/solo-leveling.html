@@ -70,7 +70,7 @@ z-index:1000;
     padding:20px;
     display:flex;
     flex-direction:column;
-    gap:20px;
+    gap:12px;
 }
 .info-box{
     background:#1a1a1a;
@@ -78,7 +78,7 @@ z-index:1000;
     padding:20px;
     display:flex;
     gap:25px;
-    margin-top:20px;
+    margin-top:8px;
     position:relative;
     z-index:10;
 }
@@ -120,7 +120,7 @@ z-index:1000;
     background:#1a1a1a;
     padding:20px;
     border-radius:15px;
-    margin-top:0px;
+    margin:0;
 }
 .section h2{
     color:#ff2e63;
@@ -294,7 +294,7 @@ footer a{
 
 .section{
     width:100%;
-    margin:20px 0;
+    margin:8px 0;
     padding:18px;
 }
 
@@ -307,7 +307,6 @@ footer a{
   border-radius:8px;
   cursor:pointer;
 }
-
 
 .community{
     display:flex;
@@ -557,10 +556,9 @@ Chapter 4 (Coming Soon)
 `;
 </script>
     <script type="module">
-function toggleMenu(){
-    document.getElementById("sidebar")
-    .classList.toggle("active");
-}
+window.toggleMenu = function () {
+    document.getElementById("sidebar").classList.toggle("active");
+};
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {
@@ -596,41 +594,90 @@ const chapterId = "solo-leveling";
 
 const modal = document.getElementById("loginModal");
 
+let registerMode = false;
+
+const modalTitle = document.getElementById("modalTitle");
+const usernameInput = document.getElementById("username");
+const submitBtn = document.getElementById("submitBtn");
+const switchText = document.getElementById("switchText");
+
 document.getElementById("openLogin").onclick = () => {
-    modal.style.display="flex";
+    modal.style.display = "flex";
 };
 
 document.getElementById("closeModal").onclick = () => {
-  modal.style.display = "none";
+    modal.style.display = "none";
 };
 
-window.login = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+function updateModal(){
 
-  await signInWithEmailAndPassword(auth, email, password);
+    if(registerMode){
+
+        modalTitle.textContent = "Register";
+        usernameInput.style.display = "block";
+        submitBtn.textContent = "Register";
+
+        switchText.innerHTML = `
+        Already have an account?
+        <span id="switchMode" style="color:#ff2e63;cursor:pointer;font-weight:bold;">
+        Login here
+        </span>`;
+
+    }else{
+
+        modalTitle.textContent = "Login";
+        usernameInput.style.display = "none";
+        submitBtn.textContent = "Login";
+
+        switchText.innerHTML = `
+        Don't have an account?
+        <span id="switchMode" style="color:#ff2e63;cursor:pointer;font-weight:bold;">
+        Register here
+        </span>`;
+    }
+
+    document.getElementById("switchMode").onclick = () => {
+        registerMode = !registerMode;
+        updateModal();
+    };
+}
+
+updateModal();
+
+window.login = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    await signInWithEmailAndPassword(auth,email,password);
 };
 
 window.register = async () => {
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  const userCred = await createUserWithEmailAndPassword(auth, email, password);
+    const userCred = await createUserWithEmailAndPassword(auth,email,password);
 
-  await setDoc(doc(db, "users", userCred.user.uid), {
-    username,
-    profilePic: "https://i.imgur.com/placeholder.png"
-  });
+    await setDoc(doc(db,"users",userCred.user.uid),{
+        username,
+        profilePic:"https://i.imgur.com/placeholder.png"
+    });
+};
+
+submitBtn.onclick = async () => {
+
+    if(registerMode){
+        await register();
+    }else{
+        await login();
+    }
+
+    modal.style.display = "none";
 };
 
 window.logout = async () => {
-  await signOut(auth);
+    await signOut(auth);
 };
-
-        document.getElementById("loginBtn").onclick = login;
-document.getElementById("registerBtn").onclick = register;
-        
 
 /* ================= REACTIONS ================= */
 
