@@ -241,20 +241,7 @@ footer a{
     font-size:20px;
     cursor:pointer;
 }
-@media(max-width:768px){
-    .info-box{
-        flex-direction:column;
-        align-items:center;
-    }
-    .cover{
-        width:220px;
-    }
-    .banner-content h1{
-        font-size:32px;
-    }
-
-
-.sidebar{
+    .sidebar{
     position:fixed;
     top:0;
     right:-280px;
@@ -286,6 +273,24 @@ footer a{
     cursor:pointer;
     float:right;
 }
+#userPanel:empty{
+    display:none;
+}
+
+.community .login-btn{
+    margin-top:0;
+}
+@media(max-width:768px){
+    .info-box{
+        flex-direction:column;
+        align-items:center;
+    }
+    .cover{
+        width:220px;
+    }
+    .banner-content h1{
+        font-size:32px;
+    }
 
 .section{
     width:100%;
@@ -304,11 +309,15 @@ footer a{
 }
 
 
- .community{
+.community{
     display:flex;
     flex-direction:column;
-    gap:10px;
-    padding:16px;
+    gap:6px;
+    padding:18px;
+}
+
+.community h2{
+    margin-bottom:0;
 }
 
 .login-btn{
@@ -330,20 +339,9 @@ footer a{
 }
 
 .reaction-btn{
-    background:#242424;
-    border:1px solid #333;
-    color:white;
-    border-radius:12px;
-    padding:10px 12px;
-    cursor:pointer;
-    font-size: 18px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-
-    transition:.2s;
+    height:48px;
+    padding:0;
+    font-size:18px;
 }
 
 .reaction-btn:hover{
@@ -379,10 +377,6 @@ footer a{
     border-radius:8px;
     cursor:pointer;
 }
-
-}
-@media(max-width:768px){
-
 .reaction-grid{
     grid-template-columns:repeat(3,1fr);
 }
@@ -398,7 +392,6 @@ footer a{
 .logout-btn{
     width:100%;
 }
-
 }
 </style>
 </head>
