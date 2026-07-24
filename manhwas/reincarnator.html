@@ -607,8 +607,8 @@ his rise to become the strongest hunter alive.
 <div class="section">
 <h2>Recommended Manhwa</h2>
 <div class="recommended-grid">
-<div class="card" onclick="location.href='../solo-leveling'">
-<img src="../covers/solo.jpg">
+<div class="card" onclick="location.href="solo-leveling'">
+<img src="../../covers/solo.jpg">
 <h3>Solo Leveling</h3>
 </div>
 <div class="card" onclick="location.href='../nano-machine'">
@@ -631,7 +631,7 @@ his rise to become the strongest hunter alive.
 const chapterList = document.getElementById("chapterList");
 
 chapterList.innerHTML = `
-<a href="../chapters/reincarnator/slides/chapter/1/chapter1slide" class="chapter">
+<a href="../../chapters/reincarnator/slides/chapter/1/chapter1slide" class="chapter">
 Chapter 1
 </a>
 
@@ -753,7 +753,7 @@ window.register = async () => {
 
     await setDoc(doc(db,"users",userCred.user.uid),{
         username,
-        profilePic:"../assets/profile.png"
+        profilePic:"../../assets/profile.png"
     });
 };
 
