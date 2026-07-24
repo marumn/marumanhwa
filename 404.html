@@ -1,0 +1,80 @@
+<style>*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#fff;          /* or #0f0f0f */
+    padding:30px;
+}
+
+.container{
+    text-align:center;
+    max-width:700px;
+}
+
+.hero{
+    width:min(650px,100%);
+    margin-bottom:30px;
+    animation:float 4s ease-in-out infinite;
+}
+
+h1{
+    font-size:42px;
+    color:#222;
+    margin-bottom:15px;
+}
+
+p{
+    color:#777;
+    font-size:18px;
+    margin-bottom:35px;
+}
+
+.button{
+    display:inline-block;
+    padding:15px 40px;
+    border-radius:999px;
+    background:#ff2d8d;
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(255,45,141,.35);
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}</style>
+<body>
+    <div class="container">
+
+        <img src="assets/404.png" alt="404 Illustration" class="hero">
+
+        <h1>Oops! Page not found</h1>
+
+        <p>
+            The page you're looking for doesn't exist or has been moved.
+        </p>
+
+        <a href="/home/" class="button">
+            🏠 Go Home
+        </a>
+
+    </div>
+</body>
