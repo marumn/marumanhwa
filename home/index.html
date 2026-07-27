@@ -94,14 +94,29 @@ nav a:hover{
     grid-template-columns:repeat(2,1fr);
     gap:15px;
 }
-    @media (min-width: 768px){
 
+/* Tablet */
+@media (min-width:768px){
     .grid{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:repeat(4,1fr);
         gap:20px;
     }
-
 }
+
+/* Desktop */
+@media (min-width:1200px){
+    .grid{
+        grid-template-columns:repeat(6,1fr);
+    }
+}
+
+/* Large monitors */
+@media (min-width:1600px){
+    .grid{
+        grid-template-columns:repeat(8,1fr);
+    }
+}
+
 
 .card{
     background:#1a1a1a;
@@ -117,16 +132,19 @@ nav a:hover{
 
 .card img{
     width:100%;
-    height:auto;
+    aspect-ratio:2/3;
+    object-fit:cover;
     display:block;
 }
+
     
-    @media (min-width:768px){
+@media (min-width:768px){
 
     .grid{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:repeat(6,1fr);
         gap:20px;
     }
+
 }
 
 .card-content{
