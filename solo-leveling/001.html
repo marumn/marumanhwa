@@ -364,6 +364,27 @@ footer a{
 .reaction-btn:hover{
     border-color:#ff2e63;
 }
+    .user-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.user-info img{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+}
+
+.logout-btn{
+    background:#333;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+    
 @media(max-width:768px){
     .info-box{
         flex-direction:column;
@@ -440,26 +461,6 @@ footer a{
     flex-wrap:wrap;
 }
 
-.user-info{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.user-info img{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-}
-
-.logout-btn{
-    background:#333;
-    color:white;
-    border:none;
-    padding:10px 18px;
-    border-radius:8px;
-    cursor:pointer;
-}
 .reaction-grid{
     grid-template-columns:repeat(3,1fr);
 }
@@ -631,7 +632,7 @@ his rise to become the strongest hunter alive.
 const chapterList = document.getElementById("chapterList");
 
 chapterList.innerHTML = `
-<a href="chaper/1" class="chapter">
+<a href="chapter/1" class="chapter">
 Chapter 1
 </a>
 
