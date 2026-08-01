@@ -506,11 +506,11 @@ onclick="location.href='../ahwmc/001'">
 
         <div class="card"
 data-title="tbate"
-onclick="location.href='../manhwas/tbate'">
+onclick="location.href='../tbate/001'">
             <img src="https://placehold.co/400x600" alt="">
             <div class="card-content">
                 <h3>TBATE</h3>
-                <div class="chapter">Chapter 225</div>
+                <div class="chapter">Chapter 1</div>
             </div>
         </div>
 
@@ -564,6 +564,7 @@ onclick="location.href='../manhwas/tbate'">
 </footer>
     
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        
     <script>
 const swiper = new Swiper(".mySwiper", {
   loop: true,
@@ -583,64 +584,7 @@ const swiper = new Swiper(".mySwiper", {
     prevEl: ".swiper-button-prev",
   },
 });
-        function searchManhwa(){
-
-    let input =
-    document.getElementById("searchInput")
-    .value.toLowerCase();
-
-    let results =
-    document.getElementById("searchResults");
-
-    results.innerHTML = "";
-
-    const manhwa = [
-
-        {
-            title:"Solo Leveling",
-            link:"../solo-leveling/001"
-        },
-
-        {
-            title:"Reincarnator",
-            link:"../reincarnator/001"
-        },
-
-        {
-            title:"Auto Hunting With My Clones",
-            link:"../ahmwc/001"
-        },
-
-        {
-            title:"TBATE",
-            link:"../manhwas/tbate"
-        }
-
-    ];
-
-    manhwa.forEach(item => {
-
-        if(
-            item.title.toLowerCase()
-            .includes(input)
-            &&
-            input !== ""
-        ){
-
-            results.innerHTML += `
-            <div class="search-result"
-            onclick="location.href='${item.link}'">
-
-                ${item.title}
-
-            </div>
-            `;
-
-        }
-
-    });
-
-}
 </script>
+        <script src="../js/manhwa.js"></script>
 </body>
 </html>
