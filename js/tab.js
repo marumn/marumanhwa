@@ -15,38 +15,6 @@ getDoc
 from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 
-
-function loadTab(){
-
-
-fetch("../components/tab.html")
-.then(response => {
-    console.log("Fetch status:", response.status);
-    return response.text();
-})
-
-
-.then(response => response.text())
-
-
-.then(data=>{
-
-
-document
-.getElementById("tab-container")
-.innerHTML=data;
-
-
-watchUser();
-
-
-});
-
-
-}
-
-
-
 function toggleMenu(){
 
 
@@ -240,3 +208,5 @@ function loadTab(){
     });
 
 }
+
+loadTab();
