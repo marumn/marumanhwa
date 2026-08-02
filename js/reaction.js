@@ -1,36 +1,22 @@
+import { auth, db } from "./firebase.js";
 window.toggleMenu = function () {
     document.getElementById("sidebar").classList.toggle("active");
 };
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { 
-    getFirestore, 
-    doc, 
-    setDoc, 
-    getDoc 
+import {
+    doc,
+    setDoc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-import { 
-    getAuth,
+import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-
 /* 🔥 FIREBASE */
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBuSkc3-fGy0kHV2_D3eVNNYkFkG2LWnbg",
-    authDomain: "maru-manhwa.firebaseapp.com",
-    projectId: "maru-manhwa",
-};
-
-const app = initializeApp(firebaseConfig);
-
-const db = getFirestore(app);
-const auth = getAuth(app);
 
 const chapterId = window.mangaId;
 
