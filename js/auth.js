@@ -68,9 +68,14 @@ location.href="../home";
 
 
 }
+catch(error){
+
+alert(error.message);
 
 }
 
+
+}
 
 window.loginUser = async function(){
 
