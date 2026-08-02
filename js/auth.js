@@ -13,12 +13,27 @@ from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 window.registerUser = async function(){
 
 
+let username =
+document.getElementById("username").value;
+
+
 let email =
 document.getElementById("email").value;
 
 
 let password =
 document.getElementById("password").value;
+
+
+
+if(!username || !email || !password){
+
+alert("Please fill all fields");
+
+return;
+
+}
+
 
 
 try{
@@ -31,13 +46,16 @@ password
 );
 
 
+
 alert("Account created!");
 
 
 location.href="../home";
 
 
+
 }
+
 catch(error){
 
 alert(error.message);
@@ -46,7 +64,6 @@ alert(error.message);
 
 
 }
-
 
 
 
