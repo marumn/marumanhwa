@@ -5,33 +5,49 @@
 
 <title>Login - Maru Manhwa</title>
 
+
 <style>
 
+*{
+box-sizing:border-box;
+}
+
+
 body{
+
 background:#0f0f0f;
 color:white;
 font-family:Arial;
+
+height:100vh;
+
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+
 }
 
 
 .box{
 
 background:#1a1a1a;
-padding:30px;
+
+width:90%;
+max-width:350px;
+
+padding:25px;
+
 border-radius:15px;
-width:300px;
 
 }
 
 
 h2{
 
-color:#ff2e63;
 text-align:center;
+color:#ff2e63;
+
+margin-bottom:20px;
 
 }
 
@@ -39,12 +55,20 @@ text-align:center;
 input{
 
 width:100%;
+
 padding:12px;
-margin-top:10px;
+
+margin-bottom:12px;
+
 background:#0f0f0f;
+
 border:1px solid #333;
+
 color:white;
+
 border-radius:8px;
+
+font-size:15px;
 
 }
 
@@ -52,20 +76,59 @@ border-radius:8px;
 button{
 
 width:100%;
-margin-top:15px;
+
 padding:12px;
+
 background:#ff2e63;
+
 border:none;
-color:white;
+
 border-radius:8px;
+
+color:white;
+
 cursor:pointer;
+
+font-weight:bold;
 
 }
 
 
-a{
+
+.switch{
+
+text-align:center;
+
+margin-top:15px;
 
 color:#ff2e63;
+
+cursor:pointer;
+
+text-decoration:underline;
+
+}
+
+
+
+.back{
+
+display:block;
+
+text-align:center;
+
+margin-top:15px;
+
+color:#888;
+
+text-decoration:none;
+
+}
+
+
+.hidden{
+
+display:none;
 
 }
 
@@ -73,6 +136,7 @@ color:#ff2e63;
 </style>
 
 </head>
+
 
 
 <body>
@@ -86,39 +150,134 @@ MARU MANHWA
 </h2>
 
 
-<input id="email"
+
+<input 
+id="username"
+class="hidden"
+placeholder="Username">
+
+
+
+<input 
+id="email"
 placeholder="Email">
 
 
-<input id="password"
+
+<input 
+id="password"
 type="password"
 placeholder="Password">
 
 
 
-<button onclick="loginUser()">
+<button 
+id="mainBtn"
+onclick="loginUser()">
+
 Login
-</button>
 
-
-<button onclick="registerUser()">
-Create Account
 </button>
 
 
 
-<p>
-<a href="../index.html">
+<p 
+id="switchText"
+class="switch"
+onclick="changeMode()">
+
+Don't have an account? Create now
+
+</p>
+
+
+
+<a class="back" href="../home">
 Back Home
 </a>
-</p>
+
 
 
 </div>
 
 
 
+
 <script type="module" src="../js/auth.js"></script>
+
+
+
+<script>
+
+
+let registerMode=false;
+
+
+
+function changeMode(){
+
+
+registerMode=!registerMode;
+
+
+
+let username =
+document.getElementById("username");
+
+
+let button =
+document.getElementById("mainBtn");
+
+
+let text =
+document.getElementById("switchText");
+
+
+
+if(registerMode){
+
+
+username.classList.remove("hidden");
+
+
+button.innerText="Create Account";
+
+
+button.onclick=registerUser;
+
+
+
+text.innerText=
+"Already have an account? Login";
+
+
+
+}else{
+
+
+username.classList.add("hidden");
+
+
+button.innerText="Login";
+
+
+button.onclick=loginUser;
+
+
+
+text.innerText=
+"Don't have an account? Create now";
+
+
+}
+
+
+
+}
+
+
+
+</script>
 
 
 </body>
