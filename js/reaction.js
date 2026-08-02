@@ -1,6 +1,4 @@
-console.log("reaction loaded");
-
-import { auth, db } from "./firebase.js";
+import { auth, db } from "/firebase.js";
 
 
 import {
