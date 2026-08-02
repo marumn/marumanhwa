@@ -101,7 +101,7 @@ window.register = async () => {
 
     await setDoc(doc(db,"users",userCred.user.uid),{
         username,
-        profilePic: "/marumanhwa/assets/profile.png"
+        profilePic: "/assets/profile.png"
     });
 };
 
