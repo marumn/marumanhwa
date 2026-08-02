@@ -103,30 +103,64 @@ userData.data().username;
 
 account.innerHTML=`
 
-
-<p style="
-color:#ff2e63;
-font-weight:bold;
-margin-bottom:10px;
+<div style="
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
 ">
-👤 ${username}
-</p>
+
+
+<div style="
+display:flex;
+align-items:center;
+gap:10px;
+">
+
+
+<img 
+src="../assets/profile.png"
+style="
+width:40px;
+height:40px;
+border-radius:50%;
+object-fit:cover;
+">
+
+
+<span style="
+color:white;
+font-weight:bold;
+">
+
+${username}
+
+</span>
+
+
+</div>
 
 
 
-<a href="../profile">
-Profile
-</a>
+<button
+onclick="logoutUser()"
+style="
+background:#ff2e63;
+border:none;
+color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+">
 
-
-
-<a href="#" onclick="logoutUser()">
 Logout
-</a>
 
+</button>
+
+
+</div>
 
 `;
-
 
 
 }
