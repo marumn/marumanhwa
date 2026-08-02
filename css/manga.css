@@ -396,6 +396,38 @@ footer a{
     font-weight:bold;
     cursor:pointer;
 }
+
+.sidebar{
+    position:fixed;
+    top:0;
+    right:-280px;
+    width:280px;
+    height:100%;
+    background:#151515;
+    z-index:1000;
+    padding:25px;
+    transition:.3s;
+    overflow-y:auto;
+}
+
+.sidebar.active{
+    right:0;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:10px 0;
+}
+
+.close-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:24px;
+    cursor:pointer;
+}
     
 @media(max-width:768px){
     .info-box{
