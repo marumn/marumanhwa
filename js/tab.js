@@ -20,6 +20,10 @@ function loadTab(){
 
 
 fetch("../components/tab.html")
+.then(response => {
+    console.log("Fetch status:", response.status);
+    return response.text();
+})
 
 
 .then(response => response.text())
@@ -206,4 +210,33 @@ location.reload();
 
 
 
-loadTab();
+console.log("tab.js loaded");
+
+function loadTab(){
+
+    console.log("Loading tab...");
+
+    fetch("../components/tab.html")
+
+    .then(response => {
+        console.log("Fetch status:", response.status);
+        return response.text();
+    })
+
+    .then(data => {
+
+        console.log("Tab loaded!");
+
+        document
+        .getElementById("tab-container")
+        .innerHTML = data;
+
+        watchUser();
+
+    })
+
+    .catch(error => {
+        console.error(error);
+    });
+
+}
