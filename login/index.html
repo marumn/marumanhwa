@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Login - Maru Manhwa</title>
+
+<style>
+
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+
+.box{
+
+background:#1a1a1a;
+padding:30px;
+border-radius:15px;
+width:300px;
+
+}
+
+
+h2{
+
+color:#ff2e63;
+text-align:center;
+
+}
+
+
+input{
+
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#0f0f0f;
+border:1px solid #333;
+color:white;
+border-radius:8px;
+
+}
+
+
+button{
+
+width:100%;
+margin-top:15px;
+padding:12px;
+background:#ff2e63;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+
+a{
+
+color:#ff2e63;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+
+<h2>
+MARU MANHWA
+</h2>
+
+
+<input id="email"
+placeholder="Email">
+
+
+<input id="password"
+type="password"
+placeholder="Password">
+
+
+
+<button onclick="loginUser()">
+Login
+</button>
+
+
+<button onclick="registerUser()">
+Create Account
+</button>
+
+
+
+<p>
+<a href="../index.html">
+Back Home
+</a>
+</p>
+
+
+</div>
+
+
+
+<script type="module" src="../js/auth.js"></script>
+
+
+</body>
+
+</html>
