@@ -1,18 +1,21 @@
-import { auth, db } from "./firebase.js";
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+iimport { auth, db } from "./firebase.js";
 
 
 import {
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+
+import {
+doc,
+setDoc,
+getDoc
+}
+from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 /* 🔥 FIREBASE */
 
@@ -95,11 +98,26 @@ window.register = async () => {
 
 submitBtn.onclick = async () => {
 
-    if(registerMode){
-        await register();
-    }else{
-        await login();
+    try{
+
+        if(registerMode){
+            await register();
+        }else{
+            await login();
+        }
+
+        alert("Success!");
+
+        modal.style.display = "none";
+
     }
+    catch(error){
+
+        alert(error.message);
+
+    }
+
+};
 
     modal.style.display = "none";
 };
