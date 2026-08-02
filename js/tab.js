@@ -144,7 +144,7 @@ else{
 account.innerHTML=`
 
 
-<a href="../login">
+<a href="/login">
 🔑 Login
 </a>
 
@@ -184,7 +184,7 @@ function loadTab(){
 
     console.log("Loading tab...");
 
-    fetch("../components/tab.html")
+    fetch("/components/tab.html")
 
     .then(response => {
         console.log("Fetch status:", response.status);
