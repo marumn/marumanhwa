@@ -472,7 +472,7 @@ const name = data.username || "Anonymous";
 
   await addDoc(collection(db, chapterId), {
   name,
-  profilePic: data.profilePic || "/marumanhwa/assets/profile.png",
+  profilePic: data.profilePic || "/assets/profile.png",
   comment,
   time: Date.now()
 });
@@ -558,7 +558,7 @@ onSnapshot(q, (snapshot) => {
 
     await setDoc(doc(db, "users", user.uid), {
       username,
-      profilePic: "/marumanhwa/assets/profile.png"
+      profilePic: "/assets/profile.png"
     });
 
     alert("Account created!");
@@ -630,7 +630,7 @@ onAuthStateChanged(auth, async (user) => {
   ">
     <div style="display:flex;align-items:center;gap:8px;">
   <img
-    src="/marumanhwa/assets/profile.png"
+    src="/assets/profile.png"
     style="
       width:32px;
       height:32px;
