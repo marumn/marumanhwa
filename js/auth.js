@@ -8,7 +8,11 @@ signOut
 }
 from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-
+import {
+doc,
+setDoc
+}
+from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 window.registerUser = async function(){
 
@@ -39,10 +43,19 @@ return;
 try{
 
 
-await createUserWithEmailAndPassword(
+const result = await createUserWithEmailAndPassword(
 auth,
 email,
 password
+);
+
+
+
+await setDoc(
+doc(db,"users",result.user.uid),
+{
+username: username
+}
 );
 
 
@@ -56,15 +69,7 @@ location.href="../home";
 
 }
 
-catch(error){
-
-alert(error.message);
-
 }
-
-
-}
-
 
 
 window.loginUser = async function(){
