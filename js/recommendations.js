@@ -1,7 +1,9 @@
 async function loadRecommendations() {
-
     const response = await fetch("../data/manhwas.json");
     const manhwas = await response.json();
+
+    console.log("Manhwas:", manhwas);
+    console.log("Current manga:", window.mangaId);
 
     const otherManhwas = manhwas.filter(
         manga => manga.id !== window.mangaId
@@ -15,11 +17,8 @@ async function loadRecommendations() {
 
     grid.innerHTML = recommendations.map(manga => `
         <div class="card" onclick="location.href='${manga.link}'">
-
             <img src="${manga.cover}" alt="${manga.title}">
-
             <h3>${manga.title}</h3>
-
         </div>
     `).join("");
 }
