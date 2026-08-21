@@ -1,9 +1,9 @@
 async function loadRecommendations() {
     try {
-        const response = await fetch("/data/manhwas.json");
+        const response = await fetch("/data/manhwa.json");
 
         if (!response.ok) {
-            throw new Error("Could not load manhwas.json");
+            throw new Error("Could not load manhwa.json");
         }
 
         const manhwas = await response.json();
