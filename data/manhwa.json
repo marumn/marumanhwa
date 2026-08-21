@@ -1,25 +1,29 @@
 [
     {
-        "title":"Solo Leveling",
-        "cover":"../covers/solo.png",
-        "link":"../solo-leveling/001"
+        "id": "solo-leveling",
+        "title": "Solo Leveling",
+        "cover": "../covers/solo.png",
+        "link": "../solo-leveling/001"
     },
 
     {
-        "title":"Reincarnator",
-        "cover":"../covers/reincarnator.png",
-        "link":"../reincarnator/001"
+        "id": "reincarnator",
+        "title": "Reincarnator",
+        "cover": "../covers/reincarnator.png",
+        "link": "../reincarnator/001"
     },
 
     {
-        "title":"Auto Hunting With My Clones",
-        "cover":"../covers/ahwmc.png",
-        "link":"../ahwmc/001"
+        "id": "ahwmc",
+        "title": "Auto Hunting With My Clones",
+        "cover": "../covers/ahwmc.png",
+        "link": "../ahwmc/001"
     },
 
     {
-        "title":"TBATE",
-        "cover":"https://placehold.co/400x600",
-        "link":"../manhwas/tbate"
+        "id": "tbate",
+        "title": "TBATE",
+        "cover": "https://placehold.co/400x600",
+        "link": "../manhwas/tbate"
     }
 ]
