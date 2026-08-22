@@ -521,7 +521,62 @@ text.innerText=
 
 }
 
+function showForgotPassword(){
 
+    document.getElementById("username")
+        .classList.add("hidden");
+
+    document.getElementById("email")
+        .classList.add("hidden");
+
+    document.getElementById("password")
+        .classList.add("hidden");
+
+    document.getElementById("mainBtn")
+        .classList.add("hidden");
+
+    document.getElementById("forgotPassword")
+        .classList.add("hidden");
+
+    document.getElementById("createAccountBtn")
+        .classList.add("hidden");
+
+    document.querySelector(".auth-divider")
+        .classList.add("hidden");
+
+    document.getElementById("switchText")
+        ?.classList.add("hidden");
+
+    document.getElementById("forgotBox")
+        .classList.remove("hidden");
+
+}
+
+
+function showLogin(){
+
+    document.getElementById("forgotBox")
+        .classList.add("hidden");
+
+    document.getElementById("email")
+        .classList.remove("hidden");
+
+    document.getElementById("password")
+        .classList.remove("hidden");
+
+    document.getElementById("mainBtn")
+        .classList.remove("hidden");
+
+    document.getElementById("forgotPassword")
+        .classList.remove("hidden");
+
+    document.getElementById("createAccountBtn")
+        .classList.remove("hidden");
+
+    document.querySelector(".auth-divider")
+        .classList.remove("hidden");
+
+}
 
 </script>
 
