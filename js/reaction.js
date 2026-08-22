@@ -1,7 +1,4 @@
 import { auth, db } from "./firebase.js";
-window.toggleMenu = function () {
-    document.getElementById("sidebar").classList.toggle("active");
-};
 
 import {
     doc,
@@ -10,167 +7,43 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-/* 🔥 FIREBASE */
 
-const chapterId = window.mangaId;
+/* ================= MENU ================= */
 
-
-/* ================= LOGIN UI ================= */
-
-const modal = document.getElementById("loginModal");
-
-let registerMode = false;
-
-const modalTitle = document.getElementById("modalTitle");
-const usernameInput = document.getElementById("username");
-const submitBtn = document.getElementById("submitBtn");
-const switchText = document.getElementById("switchText");
-
-
-document.getElementById("openLogin").onclick = () => {
-    modal.style.display = "flex";
+window.toggleMenu = function () {
+    document.getElementById("sidebar").classList.toggle("active");
 };
 
 
-document.getElementById("closeModal").onclick = () => {
-    modal.style.display = "none";
-};
+/* ================= MANGA ================= */
 
-
-function updateModal(){
-
-    if(registerMode){
-
-        modalTitle.textContent = "Register";
-        usernameInput.style.display = "block";
-        submitBtn.textContent = "Register";
-
-        switchText.innerHTML = `
-            Already have an account?
-            <span id="switchMode" 
-            style="color:#ff2e63;cursor:pointer;font-weight:bold;">
-                Login here
-            </span>
-        `;
-
-    } else {
-
-        modalTitle.textContent = "Login";
-        usernameInput.style.display = "none";
-        submitBtn.textContent = "Login";
-
-        switchText.innerHTML = `
-            Don't have an account?
-            <span id="switchMode"
-            style="color:#ff2e63;cursor:pointer;font-weight:bold;">
-                Register here
-            </span>
-        `;
-    }
-
-
-    document.getElementById("switchMode").onclick = () => {
-        registerMode = !registerMode;
-        updateModal();
-    };
-
-}
-
-
-updateModal();
-
-
-
-window.login = async () => {
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-    );
-
-};
-
-
-
-window.register = async () => {
-
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-
-    const userCred = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-    );
-
-
-    await setDoc(
-        doc(db, "users", userCred.user.uid),
-        {
-            username,
-            profilePic: "/assets/profile.png"
-        }
-    );
-
-};
-
-
-
-submitBtn.onclick = async () => {
-
-    if(registerMode){
-        await register();
-    } else {
-        await login();
-    }
-
-    modal.style.display = "none";
-
-};
-
-
-
-window.logout = async () => {
-
-    await signOut(auth);
-
-};
-
+const mangaId = window.mangaId;
 
 
 /* ================= REACTIONS ================= */
 
-
 const reactionRef = doc(
     db,
     "reactions",
-    chapterId
+    mangaId
 );
 
 
+window.react = async function(type) {
 
-window.react = async function(type){
-
-    if(!auth.currentUser)
-        return alert("Login first");
-
+    // Not logged in → go to login page
+    if (!auth.currentUser) {
+        window.location.href = "/login/";
+        return;
+    }
 
     const uid = auth.currentUser.uid;
 
     const snap = await getDoc(reactionRef);
-
 
     let data = snap.exists()
         ? snap.data()
@@ -181,14 +54,22 @@ window.react = async function(type){
         };
 
 
-    if(data[type].includes(uid)){
+    // Make sure arrays exist
+    data.like = data.like || [];
+    data.love = data.love || [];
+    data.fire = data.fire || [];
 
+
+    if (data[type].includes(uid)) {
+
+        // Remove reaction
         data[type] = data[type].filter(
             x => x !== uid
         );
 
     } else {
 
+        // Add reaction
         data[type].push(uid);
 
     }
@@ -205,11 +86,11 @@ window.react = async function(type){
 };
 
 
+/* ================= LOAD REACTIONS ================= */
 
-async function loadReactions(){
+async function loadReactions() {
 
     const snap = await getDoc(reactionRef);
-
 
     const data = snap.exists()
         ? snap.data()
@@ -221,15 +102,13 @@ async function loadReactions(){
 
 
     document.getElementById("likeCount").innerText =
-        data.like.length;
-
+        (data.like || []).length;
 
     document.getElementById("loveCount").innerText =
-        data.love.length;
-
+        (data.love || []).length;
 
     document.getElementById("fireCount").innerText =
-        data.fire.length;
+        (data.fire || []).length;
 
 }
 
@@ -237,24 +116,46 @@ async function loadReactions(){
 loadReactions();
 
 
+/* ================= LOGOUT ================= */
+
+window.logout = async function() {
+
+    await signOut(auth);
+
+};
+
 
 /* ================= AUTH STATE ================= */
 
-
-onAuthStateChanged(auth, async(user)=>{
+onAuthStateChanged(auth, async (user) => {
 
     const panel = document.getElementById("userPanel");
-    const loginBtn = document.getElementById("openLogin");
+    const loginBtn = document.querySelector(".login-btn");
 
 
-    if(user){
+    if (!panel) return;
 
-        loginBtn.style.display = "none";
+
+    if (user) {
+
+        // Hide login button
+        if (loginBtn) {
+            loginBtn.style.display = "none";
+        }
 
 
         const snap = await getDoc(
-            doc(db,"users",user.uid)
+            doc(db, "users", user.uid)
         );
+
+
+        if (!snap.exists()) {
+
+            console.error("User profile not found");
+
+            return;
+
+        }
 
 
         const data = snap.data();
@@ -264,12 +165,14 @@ onAuthStateChanged(auth, async(user)=>{
 
             <div class="user-info">
 
-                <img src="${data.profilePic}">
+                <img src="${data.profilePic || "/assets/profile.png"}">
 
                 <div>
 
-                    <strong>${data.username}</strong>
+                    <strong>${data.username || "User"}</strong>
+
                     <br>
+
                     Logged in
 
                 </div>
@@ -278,9 +181,7 @@ onAuthStateChanged(auth, async(user)=>{
 
 
             <button class="logout-btn" onclick="logout()">
-
                 Logout
-
             </button>
 
         `;
@@ -288,12 +189,13 @@ onAuthStateChanged(auth, async(user)=>{
 
     } else {
 
-
+        // Not logged in
         panel.innerHTML = "";
 
-        loginBtn.style.display = "block";
+        if (loginBtn) {
+            loginBtn.style.display = "block";
+        }
 
     }
-
 
 });
