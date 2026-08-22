@@ -64,7 +64,14 @@ await setDoc(
 alert("Account created!");
 
 
-location.href="/home";
+const params = new URLSearchParams(window.location.search);
+const returnUrl = params.get("return");
+
+if (returnUrl) {
+    location.href = returnUrl;
+} else {
+    location.href = "/home";
+}
 
 
 
@@ -104,7 +111,14 @@ password
 alert("Login successful!");
 
 
-location.href="/home";
+const params = new URLSearchParams(window.location.search);
+const returnUrl = params.get("return");
+
+if (returnUrl) {
+    location.href = returnUrl;
+} else {
+    location.href = "/home";
+}
 
 
 
