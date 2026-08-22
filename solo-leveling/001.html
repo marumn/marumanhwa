@@ -65,10 +65,10 @@ his rise to become the strongest hunter alive.
 
     <div id="userPanel"></div>
 
-    <a href="/login/" class="login-btn">
+    <a id="loginLink" href="/login/" class="login-btn">
     Login to React
 </a>
-
+    
     <div class="reaction-grid">
 
         <button class="reaction-btn" onclick="react('like')">
@@ -132,6 +132,12 @@ window.mangaId = "solo-leveling";
 <script type="module" src="/js/tab.js"></script>
 <script type="module" src="/js/reaction.js"></script>
 <script src="/js/recommendations.js"></script>
-    
+    <script>
+const loginLink = document.getElementById("loginLink");
+
+loginLink.href =
+    "/login/?return=" +
+    encodeURIComponent(window.location.pathname);
+</script>
 </body>
 </html>
