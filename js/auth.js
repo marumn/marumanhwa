@@ -52,10 +52,11 @@ password
 
 
 await setDoc(
-doc(db,"users",result.user.uid),
-{
-username: username
-}
+    doc(db, "users", result.user.uid),
+    {
+        username: username,
+        profilePic: "/assets/profile.png"
+    }
 );
 
 
@@ -63,7 +64,7 @@ username: username
 alert("Account created!");
 
 
-location.href="../home";
+location.href="/home";
 
 
 
@@ -103,7 +104,7 @@ password
 alert("Login successful!");
 
 
-location.href="../home";
+location.href="/home";
 
 
 
