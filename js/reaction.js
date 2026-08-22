@@ -15,7 +15,13 @@ import {
 /* ================= MENU ================= */
 
 window.toggleMenu = function () {
-    document.getElementById("sidebar").classList.toggle("active");
+
+    const sidebar = document.getElementById("sidebar");
+
+    if (sidebar) {
+        sidebar.classList.toggle("active");
+    }
+
 };
 
 
@@ -23,8 +29,14 @@ window.toggleMenu = function () {
 
 const mangaId = window.mangaId;
 
+if (!mangaId) {
 
-/* ================= REACTIONS ================= */
+    console.error("mangaId is missing!");
+
+}
+
+
+/* ================= REACTION DATA ================= */
 
 const reactionRef = doc(
     db,
@@ -33,55 +45,93 @@ const reactionRef = doc(
 );
 
 
-window.react = async function(type) {
+/* ================= REACT ================= */
 
-    // Not logged in → go to login page
+window.react = async function (type) {
+
+    console.log("Reaction clicked:", type);
+
+
+    // Not logged in
     if (!auth.currentUser) {
+
         window.location.href = "/login/";
+
         return;
+
     }
 
-    const uid = auth.currentUser.uid;
 
-    const snap = await getDoc(reactionRef);
+    try {
 
-    let data = snap.exists()
-        ? snap.data()
-        : {
-            like: [],
-            love: [],
-            fire: []
-        };
+        const uid = auth.currentUser.uid;
+
+        const snap = await getDoc(reactionRef);
 
 
-    // Make sure arrays exist
-    data.like = data.like || [];
-    data.love = data.love || [];
-    data.fire = data.fire || [];
+        let data = snap.exists()
+            ? snap.data()
+            : {};
 
 
-    if (data[type].includes(uid)) {
+        // Make sure all three reactions are arrays
+        if (!Array.isArray(data.like)) {
+            data.like = [];
+        }
 
-        // Remove reaction
-        data[type] = data[type].filter(
-            x => x !== uid
+        if (!Array.isArray(data.love)) {
+            data.love = [];
+        }
+
+        if (!Array.isArray(data.fire)) {
+            data.fire = [];
+        }
+
+
+        if (!data[type]) {
+
+            console.error("Invalid reaction type:", type);
+
+            return;
+
+        }
+
+
+        // Already reacted → remove reaction
+        if (data[type].includes(uid)) {
+
+            data[type] = data[type].filter(
+                id => id !== uid
+            );
+
+        }
+
+        // Not reacted → add reaction
+        else {
+
+            data[type].push(uid);
+
+        }
+
+
+        await setDoc(
+            reactionRef,
+            data
         );
 
-    } else {
 
-        // Add reaction
-        data[type].push(uid);
+        await loadReactions();
+
 
     }
 
+    catch (error) {
 
-    await setDoc(
-        reactionRef,
-        data
-    );
+        console.error("Reaction error:", error);
 
+        alert("Something went wrong with the reaction.");
 
-    loadReactions();
+    }
 
 };
 
@@ -90,37 +140,73 @@ window.react = async function(type) {
 
 async function loadReactions() {
 
-    const snap = await getDoc(reactionRef);
+    try {
 
-    const data = snap.exists()
-        ? snap.data()
-        : {
-            like: [],
-            love: [],
-            fire: []
-        };
+        const snap = await getDoc(reactionRef);
 
 
-    document.getElementById("likeCount").innerText =
-        (data.like || []).length;
+        let data = snap.exists()
+            ? snap.data()
+            : {};
 
-    document.getElementById("loveCount").innerText =
-        (data.love || []).length;
 
-    document.getElementById("fireCount").innerText =
-        (data.fire || []).length;
+        const likes = Array.isArray(data.like)
+            ? data.like.length
+            : 0;
+
+
+        const loves = Array.isArray(data.love)
+            ? data.love.length
+            : 0;
+
+
+        const fires = Array.isArray(data.fire)
+            ? data.fire.length
+            : 0;
+
+
+        document.getElementById("likeCount").textContent =
+            likes;
+
+
+        document.getElementById("loveCount").textContent =
+            loves;
+
+
+        document.getElementById("fireCount").textContent =
+            fires;
+
+
+    }
+
+    catch (error) {
+
+        console.error("Could not load reactions:", error);
+
+    }
 
 }
 
 
+/* Load counts immediately */
 loadReactions();
 
 
 /* ================= LOGOUT ================= */
 
-window.logout = async function() {
+window.logout = async function () {
 
-    await signOut(auth);
+    try {
+
+        await signOut(auth);
+
+    }
+
+    catch (error) {
+
+        console.error("Logout error:", error);
+
+    }
 
 };
 
@@ -129,68 +215,98 @@ window.logout = async function() {
 
 onAuthStateChanged(auth, async (user) => {
 
-    const panel = document.getElementById("userPanel");
-    const loginBtn = document.querySelector(".login-btn");
+    const panel =
+        document.getElementById("userPanel");
 
 
-    if (!panel) return;
+    const loginBtn =
+        document.querySelector(".login-btn");
 
+
+    if (!panel) {
+        return;
+    }
+
+
+    /* ================= LOGGED IN ================= */
 
     if (user) {
 
-        // Hide login button
         if (loginBtn) {
             loginBtn.style.display = "none";
         }
 
 
-        const snap = await getDoc(
-            doc(db, "users", user.uid)
-        );
+        try {
+
+            const snap = await getDoc(
+                doc(db, "users", user.uid)
+            );
 
 
-        if (!snap.exists()) {
-
-            console.error("User profile not found");
-
-            return;
-
-        }
+            let data = snap.exists()
+                ? snap.data()
+                : {};
 
 
-        const data = snap.data();
+            const username =
+                data.username || "User";
 
 
-        panel.innerHTML = `
+            const profilePic =
+                data.profilePic || "/assets/profile.png";
 
-            <div class="user-info">
 
-                <img src="${data.profilePic || "/assets/profile.png"}">
+            panel.innerHTML = `
 
-                <div>
+                <div class="user-info">
 
-                    <strong>${data.username || "User"}</strong>
+                    <img
+                        src="${profilePic}"
+                        alt="Profile"
+                    >
 
-                    <br>
+                    <div>
 
-                    Logged in
+                        <strong>${username}</strong>
+
+                        <br>
+
+                        Logged in
+
+                    </div>
 
                 </div>
 
-            </div>
+                <button
+                    class="logout-btn"
+                    onclick="logout()"
+                >
+                    Logout
+                </button>
+
+            `;
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Could not load user profile:",
+                error
+            );
+
+        }
+
+    }
 
 
-            <button class="logout-btn" onclick="logout()">
-                Logout
-            </button>
+    /* ================= LOGGED OUT ================= */
 
-        `;
+    else {
 
-
-    } else {
-
-        // Not logged in
         panel.innerHTML = "";
+
 
         if (loginBtn) {
             loginBtn.style.display = "block";
