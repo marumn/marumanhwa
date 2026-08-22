@@ -244,6 +244,77 @@ transform:translateY(-30px);
 
 }
 
+.forgot-link{
+
+    text-align:center;
+
+    margin-top:12px;
+
+    color:#888;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+}
+
+.forgot-link:hover{
+
+    color:#ff2e63;
+
+}
+
+
+.auth-divider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:25px 0 12px;
+
+    color:#666;
+
+    font-size:13px;
+
+}
+
+
+.auth-divider::before,
+.auth-divider::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:#333;
+
+}
+
+
+.secondary-btn{
+
+    background:transparent;
+
+    border:1px solid #ff2e63;
+
+    color:#ff2e63;
+
+}
+
+
+.secondary-btn:hover{
+
+    background:#ff2e63;
+
+    color:white;
+
+}
+  
 @media (max-width:600px){
 
     .box{
@@ -310,15 +381,6 @@ id="password"
 type="password"
 placeholder="Password">
 
-<p 
-id="forgotPassword"
-class="switch"
-onclick="forgotPassword()">
-
-Forgot password?
-
-</p>
-
 <button 
 id="mainBtn"
 onclick="loginUser()">
@@ -327,18 +389,54 @@ Login
 
 </button>
 
-
-
 <p 
-id="switchText"
-class="switch"
-onclick="changeMode()">
+id="forgotPassword"
+class="forgot-link"
+onclick="showForgotPassword()">
 
-Don't have an account? Create now
+Forgot password?
 
 </p>
 
+<div class="auth-divider">
+    <span>Don't have an account?</span>
+</div>
 
+<button
+id="createAccountBtn"
+class="secondary-btn"
+onclick="changeMode()">
+
+Create Account
+
+</button>
+
+<div id="forgotBox" class="hidden">
+
+    <h2>Forgot Password</h2>
+
+    <p style="text-align:center;color:#aaa;margin-bottom:18px;">
+        Enter your email address and we'll send you a password reset link.
+    </p>
+
+    <input
+    id="resetEmail"
+    type="email"
+    placeholder="Email">
+
+    <button onclick="forgotPassword()">
+        Continue
+    </button>
+
+    <p
+    class="switch"
+    onclick="showLogin()">
+
+    ← Back to Login
+
+    </p>
+
+</div>
 
 <a class="back" href="../home">
 Back Home
