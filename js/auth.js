@@ -23,7 +23,7 @@ document.getElementById("username").value;
 
 
 let email =
-document.getElementById("email").value;
+document.getElementById("resetEmail").value.trim();
 
 
 let password =
