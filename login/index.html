@@ -310,7 +310,14 @@ id="password"
 type="password"
 placeholder="Password">
 
+<p 
+id="forgotPassword"
+class="switch"
+onclick="forgotPassword()">
 
+Forgot password?
+
+</p>
 
 <button 
 id="mainBtn"
@@ -386,7 +393,7 @@ button.innerText="Create Account";
 
 button.onclick=registerUser;
 
-
+document.getElementById("forgotPassword").classList.add("hidden");
 
 text.innerText=
 "Already have an account? Login";
@@ -404,7 +411,7 @@ button.innerText="Login";
 
 button.onclick=loginUser;
 
-
+document.getElementById("forgotPassword").classList.remove("hidden");
 
 text.innerText=
 "Don't have an account? Create now";
