@@ -4,6 +4,7 @@ import {auth, db} from "./firebase.js";
 import {
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
+sendPasswordResetEmail,
 signOut
 }
 from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
@@ -143,5 +144,42 @@ await signOut(auth);
 
 location.reload();
 
+
+}
+
+window.forgotPassword = async function(){
+
+    let email =
+    document.getElementById("email").value.trim();
+
+
+    if(!email){
+
+        alert("Please enter your email first.");
+
+        return;
+
+    }
+
+
+    try{
+
+        await sendPasswordResetEmail(
+            auth,
+            email
+        );
+
+
+        alert(
+            "Password reset email sent! Check your email."
+        );
+
+
+    }
+    catch(error){
+
+        alert(error.message);
+
+    }
 
 }
