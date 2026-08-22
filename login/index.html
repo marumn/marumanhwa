@@ -363,53 +363,61 @@ MARU MANHWA
 
 
 
-<input 
-id="username"
-class="hidden"
-placeholder="Username">
+<div id="authForm">
+
+    <input 
+    id="username"
+    class="hidden"
+    placeholder="Username">
 
 
-
-<input 
-id="email"
-placeholder="Email">
-
+    <input 
+    id="email"
+    placeholder="Email">
 
 
-<input 
-id="password"
-type="password"
-placeholder="Password">
+    <input 
+    id="password"
+    type="password"
+    placeholder="Password">
 
-<button 
-id="mainBtn"
-onclick="loginUser()">
 
-Login
+    <button 
+    id="mainBtn"
+    onclick="loginUser()">
 
-</button>
+    Login
 
-<p 
-id="forgotPassword"
-class="forgot-link"
-onclick="showForgotPassword()">
+    </button>
 
-Forgot password?
 
-</p>
+    <p 
+    id="forgotPassword"
+    class="forgot-link"
+    onclick="showForgotPassword()">
 
-<div class="auth-divider">
-    <span>Don't have an account?</span>
+    Forgot password?
+
+    </p>
+
+
+    <div class="auth-divider">
+        <span id="accountText">
+            Don't have an account?
+        </span>
+    </div>
+
+
+    <button
+    id="createAccountBtn"
+    class="secondary-btn"
+    onclick="changeMode()">
+
+    Create Account
+
+    </button>
+
 </div>
-
-<button
-id="createAccountBtn"
-class="secondary-btn"
-onclick="changeMode()">
-
-Create Account
-
-</button>
 
 <div id="forgotBox" class="hidden">
 
@@ -462,90 +470,73 @@ let registerMode=false;
 
 function changeMode(){
 
-
-registerMode=!registerMode;
-
+    registerMode = !registerMode;
 
 
-let username =
-document.getElementById("username");
+    const username =
+        document.getElementById("username");
+
+    const button =
+        document.getElementById("mainBtn");
+
+    const forgot =
+        document.getElementById("forgotPassword");
+
+    const createBtn =
+        document.getElementById("createAccountBtn");
+
+    const accountText =
+        document.getElementById("accountText");
 
 
-let button =
-document.getElementById("mainBtn");
+    if(registerMode){
+
+        username.classList.remove("hidden");
+
+        button.innerText = "Create Account";
+
+        button.onclick = registerUser;
 
 
-let text =
-document.getElementById("switchText");
+        forgot.classList.add("hidden");
 
 
-
-if(registerMode){
-
-
-username.classList.remove("hidden");
+        accountText.innerText =
+            "Already have an account?";
 
 
-button.innerText="Create Account";
+        createBtn.innerText =
+            "Login";
+
+    }
+
+    else{
+
+        username.classList.add("hidden");
+
+        button.innerText = "Login";
+
+        button.onclick = loginUser;
 
 
-button.onclick=registerUser;
-
-document.getElementById("forgotPassword").classList.add("hidden");
-
-text.innerText=
-"Already have an account? Login";
+        forgot.classList.remove("hidden");
 
 
-
-}else{
-
-
-username.classList.add("hidden");
+        accountText.innerText =
+            "Don't have an account?";
 
 
-button.innerText="Login";
+        createBtn.innerText =
+            "Create Account";
 
-
-button.onclick=loginUser;
-
-document.getElementById("forgotPassword").classList.remove("hidden");
-
-text.innerText=
-"Don't have an account? Create now";
-
-
-}
-
-
+    }
 
 }
 
 function showForgotPassword(){
 
-    document.getElementById("username")
+    document.getElementById("authForm")
         .classList.add("hidden");
-
-    document.getElementById("email")
-        .classList.add("hidden");
-
-    document.getElementById("password")
-        .classList.add("hidden");
-
-    document.getElementById("mainBtn")
-        .classList.add("hidden");
-
-    document.getElementById("forgotPassword")
-        .classList.add("hidden");
-
-    document.getElementById("createAccountBtn")
-        .classList.add("hidden");
-
-    document.querySelector(".auth-divider")
-        .classList.add("hidden");
-
-    document.getElementById("switchText")
-        ?.classList.add("hidden");
 
     document.getElementById("forgotBox")
         .classList.remove("hidden");
