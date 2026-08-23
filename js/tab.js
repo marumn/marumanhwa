@@ -46,6 +46,20 @@ if(!account) return;
 
 
 
+if(user && !user.emailVerified){
+
+    await signOut(auth);
+
+    account.innerHTML = `
+        <a href="/login">
+        🔑 Login
+        </a>
+    `;
+
+    return;
+
+}
+
 if(user){
 
 
