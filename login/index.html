@@ -314,6 +314,18 @@ transform:translateY(-30px);
     color:white;
 
 }
+
+  .auth-line{
+
+    width:100%;
+
+    height:1px;
+
+    background:#333;
+
+    margin:0 0 20px;
+
+}
   
 @media (max-width:600px){
 
@@ -361,7 +373,7 @@ transform:translateY(-30px);
 MARU MANHWA
 </h2>
 
-
+<div class="auth-line"></div>
 
 <div id="authForm">
 
@@ -546,26 +558,80 @@ function showForgotPassword(){
 
 function showLogin(){
 
+    // Hide forgot password screen
     document.getElementById("forgotBox")
         .classList.add("hidden");
 
-    document.getElementById("email")
+
+    // Show login/register form
+    document.getElementById("authForm")
         .classList.remove("hidden");
 
-    document.getElementById("password")
-        .classList.remove("hidden");
 
-    document.getElementById("mainBtn")
-        .classList.remove("hidden");
+    // Always return to LOGIN mode
+    registerMode = false;
 
-    document.getElementById("forgotPassword")
-        .classList.remove("hidden");
 
-    document.getElementById("createAccountBtn")
-        .classList.remove("hidden");
+    const username =
+        document.getElementById("username");
 
-    document.querySelector(".auth-divider")
-        .classList.remove("hidden");
+    const email =
+        document.getElementById("email");
+
+    const password =
+        document.getElementById("password");
+
+    const button =
+        document.getElementById("mainBtn");
+
+    const forgot =
+        document.getElementById("forgotPassword");
+
+    const divider =
+        document.querySelector(".auth-divider");
+
+    const createBtn =
+        document.getElementById("createAccountBtn");
+
+    const accountText =
+        document.getElementById("accountText");
+
+
+    // Username hidden in login
+    username.classList.add("hidden");
+
+
+    // Restore login inputs
+    email.classList.remove("hidden");
+
+    password.classList.remove("hidden");
+
+
+    // Restore Login button
+    button.classList.remove("hidden");
+
+    button.innerText = "Login";
+
+    button.onclick = loginUser;
+
+
+    // Restore Forgot Password
+    forgot.classList.remove("hidden");
+
+
+    // Restore divider
+    divider.classList.remove("hidden");
+
+
+    // Restore Create Account button
+    createBtn.classList.remove("hidden");
+
+    createBtn.innerText = "Create Account";
+
+
+    // Restore text
+    accountText.innerText =
+        "Don't have an account?";
 
 }
 
