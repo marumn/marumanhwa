@@ -55,11 +55,24 @@ window.react = async function (type) {
     // Not logged in
     if (!auth.currentUser) {
 
-        window.location.href = "/login/";
+    window.location.href = "/login/";
 
-        return;
+    return;
 
-    }
+}
+
+
+if (!auth.currentUser.emailVerified) {
+
+    await signOut(auth);
+
+    alert("Please verify your email before reacting.");
+
+    window.location.href = "/login/";
+
+    return;
+
+}
 
 
     try {
@@ -230,7 +243,21 @@ onAuthStateChanged(auth, async (user) => {
 
     /* ================= LOGGED IN ================= */
 
-    if (user) {
+    if (user && !user.emailVerified) {
+
+    await signOut(auth);
+
+    panel.innerHTML = "";
+
+    if (loginBtn) {
+        loginBtn.style.display = "block";
+    }
+
+    return;
+
+}
+
+if (user) {
 
         if (loginBtn) {
             loginBtn.style.display = "none";
