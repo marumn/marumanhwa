@@ -431,7 +431,7 @@ MARU MANHWA
 
 </div>
 
-<div id="forgotBox" class="hidden">
+<<div id="forgotBox" class="hidden">
 
     <h2>Forgot Password</h2>
 
@@ -447,6 +447,49 @@ MARU MANHWA
     <button onclick="forgotPassword()">
         Continue
     </button>
+
+    <p
+    class="switch"
+    onclick="showLogin()">
+
+    ← Back to Login
+
+    </p>
+
+</div>
+
+
+<div id="verifyBox" class="hidden">
+
+    <h2>Verify Your Email</h2>
+
+    <div class="auth-line"></div>
+
+    <p style="text-align:center;color:#aaa;line-height:1.6;margin-bottom:18px;">
+        We sent a verification link to:
+    </p>
+
+    <p
+    id="verifyEmail"
+    style="text-align:center;color:#ff2e63;font-weight:bold;margin-bottom:20px;word-break:break-word;">
+    </p>
+
+    <p style="text-align:center;color:#aaa;line-height:1.6;margin-bottom:20px;">
+        Please check your inbox and click the verification link to verify your account.
+    </p>
+
+    <button onclick="checkVerification()">
+        I've Verified My Email
+    </button>
+
+    <p
+    id="resendVerification"
+    class="switch"
+    onclick="resendVerificationEmail()">
+
+    Resend Email
+
+    </p>
 
     <p
     class="switch"
