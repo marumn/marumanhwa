@@ -5,6 +5,7 @@ import {
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
 sendPasswordResetEmail,
+sendEmailVerification,
 signOut
 }
 from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
@@ -50,7 +51,7 @@ email,
 password
 );
 
-
+await sendEmailVerification(result.user);
 
 await setDoc(
     doc(db, "users", result.user.uid),
@@ -62,7 +63,9 @@ await setDoc(
 
 
 
-alert("Account created!");
+alert(
+    "Account created! Please check your email and verify your account."
+);
 
 
 const params = new URLSearchParams(window.location.search);
