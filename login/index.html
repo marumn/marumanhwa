@@ -431,7 +431,7 @@ MARU MANHWA
 
 </div>
 
-<<div id="forgotBox" class="hidden">
+<div id="forgotBox" class="hidden">
 
     <h2>Forgot Password</h2>
 
@@ -463,19 +463,33 @@ MARU MANHWA
 
     <h2>Verify Your Email</h2>
 
-    <div class="auth-line"></div>
-
-    <p style="text-align:center;color:#aaa;line-height:1.6;margin-bottom:18px;">
+    <p style="
+        text-align:center;
+        color:#aaa;
+        line-height:1.6;
+        margin-bottom:10px;
+    ">
         We sent a verification link to:
     </p>
 
     <p
     id="verifyEmail"
-    style="text-align:center;color:#ff2e63;font-weight:bold;margin-bottom:20px;word-break:break-word;">
+    style="
+        text-align:center;
+        color:#ff2e63;
+        font-weight:bold;
+        margin-bottom:18px;
+        word-break:break-word;
+    ">
     </p>
 
-    <p style="text-align:center;color:#aaa;line-height:1.6;margin-bottom:20px;">
-        Please check your inbox and click the verification link to verify your account.
+    <p style="
+        text-align:center;
+        color:#aaa;
+        line-height:1.6;
+        margin-bottom:20px;
+    ">
+        Check your inbox and click the verification link to continue.
     </p>
 
     <button onclick="checkVerification()">
@@ -487,23 +501,19 @@ MARU MANHWA
     class="switch"
     onclick="resendVerificationEmail()">
 
-    Resend Email
+        Resend verification email
 
     </p>
 
     <p
-class="switch"
-onclick="showLogin()">
+    class="switch"
+    onclick="showLogin()">
 
-&#8592; Back to Login
+        &#8592; Back to Login
 
-</p>
+    </p>
 
 </div>
-
-<a class="back" href="/home">
-Back Home
-</a>
 
 
 
