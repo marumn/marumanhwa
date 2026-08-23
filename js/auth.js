@@ -89,15 +89,14 @@ alert(error.message);
 
 window.loginUser = async function(){
 
+    let email =
+    document.getElementById("email").value.trim();
 
-let email =
-document.getElementById("email").value;
+    let password =
+    document.getElementById("password").value;
 
 
-let password =
-document.getElementById("password").value;
-
-if(!email || !password){
+    if(!email || !password){
 
         alert("Please enter your email and password.");
 
@@ -105,51 +104,69 @@ if(!email || !password){
 
     }
 
-try{
+
+    try{
+
+        const result =
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
 
-const result = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password
-);
-
-await result.user.reload();
-
-if(!result.user.emailVerified){
-
-    await signOut(auth);
-
-    alert(
-        "Please verify your email before logging in. Check your inbox for the verification link."
-    );
-
-    return;
-}
+        await result.user.reload();
 
 
+        // EMAIL NOT VERIFIED
+        if(!result.user.emailVerified){
 
-alert("Login successful!");
+            document.getElementById("authForm")
+                .classList.add("hidden");
+
+            document.getElementById("forgotBox")
+                .classList.add("hidden");
+
+            document.getElementById("verifyBox")
+                .classList.remove("hidden");
+
+            document.getElementById("verifyEmail")
+                .innerText = email;
+
+            return;
+
+        }
 
 
-const params = new URLSearchParams(window.location.search);
-const returnUrl = params.get("return");
-
-if (returnUrl) {
-    location.href = returnUrl;
-} else {
-    location.href = "/home";
-}
+        // EMAIL VERIFIED
+        alert("Login successful!");
 
 
+        const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
-}
-catch(error){
+        const returnUrl =
+        params.get("return");
 
-alert(error.message);
 
-}
+        if(returnUrl){
 
+            location.href = returnUrl;
+
+        }else{
+
+            location.href = "/home";
+
+        }
+
+    }
+    catch(error){
+
+        alert(error.message);
+
+    }
 
 }
 
