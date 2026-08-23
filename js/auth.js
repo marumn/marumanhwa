@@ -97,16 +97,35 @@ document.getElementById("email").value;
 let password =
 document.getElementById("password").value;
 
+if(!email || !password){
 
+        alert("Please enter your email and password.");
+
+        return;
+
+    }
 
 try{
 
 
-await signInWithEmailAndPassword(
-auth,
-email,
-password
+const result = await signInWithEmailAndPassword(
+    auth,
+    email,
+    password
 );
+
+await result.user.reload();
+
+if(!result.user.emailVerified){
+
+    await signOut(auth);
+
+    alert(
+        "Please verify your email before logging in. Check your inbox for the verification link."
+    );
+
+    return;
+}
 
 
 
