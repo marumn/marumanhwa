@@ -63,19 +63,17 @@ await setDoc(
 
 
 
-alert(
-    "Account created! Please check your email and verify your account."
-);
+document.getElementById("authForm")
+    .classList.add("hidden");
 
+document.getElementById("forgotBox")
+    .classList.add("hidden");
 
-const params = new URLSearchParams(window.location.search);
-const returnUrl = params.get("return");
+document.getElementById("verifyBox")
+    .classList.remove("hidden");
 
-if (returnUrl) {
-    location.href = returnUrl;
-} else {
-    location.href = "/home";
-}
+document.getElementById("verifyEmail")
+    .innerText = email;
 
 
 
@@ -186,3 +184,66 @@ window.forgotPassword = async function(){
     }
 
 }
+
+window.checkVerification = async function(){
+
+    if(!auth.currentUser){
+        alert("Please log in again.");
+        return;
+    }
+
+    await auth.currentUser.reload();
+
+    if(auth.currentUser.emailVerified){
+
+        alert("Email verified successfully!");
+
+        const params =
+            new URLSearchParams(window.location.search);
+
+        const returnUrl =
+            params.get("return");
+
+        if(returnUrl){
+
+            location.href = returnUrl;
+
+        }else{
+
+            location.href = "/home";
+
+        }
+
+    }else{
+
+        alert("Your email is not verified yet. Please check your email.");
+
+    }
+
+};
+
+window.resendVerificationEmail = async function(){
+
+    if(!auth.currentUser){
+        alert("Please log in again.");
+        return;
+    }
+
+    try{
+
+        await sendEmailVerification(
+            auth.currentUser
+        );
+
+        alert(
+            "Verification email sent again! Check your inbox."
+        );
+
+    }
+    catch(error){
+
+        alert(error.message);
+
+    }
+
+};
