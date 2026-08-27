@@ -437,6 +437,22 @@ window.logoutUser = async function(){
 
 }
 
+    onAuthStateChanged(auth, (user) => {
+
+  const loginBtn = document.getElementById("showLoginBtn");
+
+  if (!loginBtn) return;
+
+  if (user) {
+    // User is logged in → hide Login button
+    loginBtn.style.display = "none";
+  } else {
+    // User is logged out → show Login button
+    loginBtn.style.display = "inline-flex";
+  }
+
+});
+    
 </script>
 </body>
 </html>
