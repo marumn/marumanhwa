@@ -233,7 +233,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
     const loginBtn =
-        document.querySelector(".login-btn");
+    document.getElementById("loginLink");
 
 
     if (!panel) {
