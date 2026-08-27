@@ -120,6 +120,10 @@ header{
 }
 
 .post-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
     margin-top:10px;
     background:#ff2e63;
     color:white;
@@ -127,6 +131,12 @@ header{
     padding:10px 15px;
     border-radius:6px;
     cursor:pointer;
+
+    text-decoration:none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    line-height:normal;
+    box-sizing:border-box;
 }
 
 .post-btn:hover{
@@ -160,65 +170,6 @@ header{
     background:#ff2e63;
     color:white;
     font-weight:700;
-    cursor:pointer;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    backdrop-filter:blur(8px);
-    z-index:9999;
-}
-
-.modal-box{
-    width:85%;
-    max-width:320px;
-    background:#1a1a1a;
-    border:1px solid rgba(255,46,99,.3);
-    border-radius:16px;
-    padding:20px;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-}
-
-.modal-box h2{
-    color:#ff2e63;
-    text-align:center;
-    margin-bottom:20px;
-}
-
-.modal-box input{
-    width:100%;
-    margin-bottom:12px;
-    padding:12px;
-    background:#0f0f0f;
-    border:1px solid #333;
-    color:white;
-    border-radius:8px;
-}
-
-.auth-btn{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#ff2e63;
-    color:white;
-    margin-top:10px;
-    cursor:pointer;
-}
-
-.secondary{
-    background:#242424;
-}
-
-#closeModal{
-    float:right;
-    font-size:24px;
     cursor:pointer;
 }
 
@@ -278,38 +229,6 @@ header{
 </div>
 </div>
 
-<div id="loginModal" class="modal">
-
-  <div class="modal-box">
-
-    <span id="closeModal">&times;</span>
-
-    <h2>MARU MANHWA</h2>
-
-    <input id="username" type="text" placeholder="Username" style="display:none;">
-
-    <input id="email" type="email" placeholder="Email">
-
-    <input id="password" type="password" placeholder="Password">
-
-   <button id="loginBtn" onclick="loginUser()" class="auth-btn">
-  Login
-</button>
-
-<button id="registerBtn" onclick="registerUser()" class="auth-btn" style="display:none;">
-  Register
-</button>
-
-<p id="toggleText"
-style="text-align:center;margin-top:10px;cursor:pointer;color:#ff2e63;text-decoration:underline;"
-onclick="toggleMode()">
-  Don't have an account? Create one
-</p>
-
-  </div>
-
-</div>
-
 <div id="userPanel"></div>
 
 <!-- COMMENTS -->
@@ -328,10 +247,11 @@ placeholder="Write a comment..."></textarea>
       Post Comment
     </button>
 
-    <button id="showLoginBtn"
-    class="post-btn">
-      Login
-    </button>
+   <a id="showLoginBtn"
+   class="post-btn"
+   href="/login/?return=/solo-leveling/chapter/1.html">
+  Login
+</a>
 
 </div>
 
@@ -357,13 +277,10 @@ function prevChapter(){
 }
 </script>
 <script type="module">
-
-    import { updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    
+import { auth, db } from "../../js/firebase.js";
 
 import {
-  getFirestore,
   collection,
   addDoc,
   query,
@@ -374,28 +291,11 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
-    import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBuSkc3-fGy0kHV2_D3eVNNYkFkG2LWnbg",
-  authDomain: "maru-manhwa.firebaseapp.com",
-  projectId: "maru-manhwa",
-  storageBucket: "maru-manhwa.firebasestorage.app",
-  messagingSenderId: "431200871834",
-  appId: "1:431200871834:web:468b9b694099c87587c623"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-    const auth = getAuth(app);
-
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+    
     const chapterId = "solo-leveling-chapter-1";
 
     const reactionRef = doc(db, "reactions", chapterId);
@@ -530,179 +430,13 @@ onSnapshot(q, (snapshot) => {
 `;
   });
 });
-    window.registerUser = async function () {
-
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  if (!username.trim()) {
-    alert("Username is required!");
-    return;
-  }
-
-  if (!email.trim() || !password.trim()) {
-    alert("Email and password are required!");
-    return;
-  }
-
-  if (password.length < 6) {
-    alert("Password must be at least 6 characters!");
-    return;
-  }
-
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-
-    const user = auth.currentUser;
-
-    await setDoc(doc(db, "users", user.uid), {
-      username,
-      profilePic: "/assets/profile.png"
-    });
-
-    alert("Account created!");
-
-  } catch (err) {
-    alert(err.message);
-  }
-};
-
-window.loginUser = async function(){
-
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try{
-    await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    alert("Logged in!");
-
-  }catch(err){
-    alert(err.message);
-  }
-
-}
-
+    
 window.logoutUser = async function(){
 
   await signOut(auth);
 
 }
-const modal = document.getElementById("loginModal");
 
-document.getElementById("closeModal").onclick = () => {
-  modal.style.display = "none";
-};
-
-onAuthStateChanged(auth, async (user) => {
-
-  const commentUser =
-    document.getElementById("commentUser");
-
-  const panel =
-    document.getElementById("userPanel");
-
-   const loginBtn =
-  document.getElementById("showLoginBtn");
-    
-  if(user){
-
-      loginBtn.style.display = "none";
-      
-    const userDoc = await getDoc(
-      doc(db, "users", user.uid)
-    );
-
-    const username =
-      userDoc.data().username;
-
-    commentUser.innerHTML = `
-  <div style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:10px;
-  ">
-    <div style="display:flex;align-items:center;gap:8px;">
-  <img
-    src="/assets/profile.png"
-    style="
-      width:32px;
-      height:32px;
-      border-radius:50%;
-      object-fit:cover;
-    "
-  >
-  <span>${username}</span>
-</div>
-
-    <button
-      onclick="logoutUser()"
-      style="
-        background:none;
-        border:none;
-        color:#ff2e63;
-        cursor:pointer;
-      ">
-      Logout
-    </button>
-  </div>
-`;
-    panel.innerHTML = "";
-
-    modal.style.display = "none";
-
-  }else{
-
-      loginBtn.style.display = "block";
-
-loginBtn.onclick = () => {
-  modal.style.display = "block";
-};
-      
-    commentUser.innerHTML = "";
-
-    panel.innerHTML = "";
-
-    document.getElementById("showLogin")
-      .onclick = () => {
-        modal.style.display = "block";
-      };
-
-  }
-
-});
-    let isLoginMode = true;
-    window.toggleMode = function () {
-
-  const loginBtn = document.getElementById("loginBtn");
-  const registerBtn = document.getElementById("registerBtn");
-  const toggleText = document.getElementById("toggleText");
-  const username = document.getElementById("username");
-
-  isLoginMode = !isLoginMode;
-
-  if (isLoginMode) {
-    loginBtn.style.display = "block";
-    registerBtn.style.display = "none";
-
-    username.style.display = "none";
-
-    toggleText.innerText = "Don't have an account? Create one";
-  } else {
-    loginBtn.style.display = "none";
-    registerBtn.style.display = "block";
-
-    username.style.display = "block";
-
-    toggleText.innerText = "Already have an account? Login";
-  }
-};
 </script>
 </body>
 </html>
