@@ -314,9 +314,9 @@ footer a{
     width:100%;
     height:46px;
 
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
     box-sizing:border-box;
 
@@ -327,12 +327,12 @@ footer a{
     border:none;
     border-radius:12px;
 
-    padding:0 !important;
+    padding:0;
     margin:0;
 
     font-size:16px;
     font-weight:bold;
-    line-height:normal !important;
+    line-height:normal;
 
     text-align:center;
 
