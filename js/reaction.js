@@ -249,9 +249,9 @@ onAuthStateChanged(auth, async (user) => {
 
     panel.innerHTML = "";
 
-    if (loginBtn) {
-        loginBtn.style.display = "block";
-    }
+  if (loginBtn) {
+    loginBtn.style.setProperty("display", "flex", "important");
+}
 
     return;
 
@@ -259,9 +259,9 @@ onAuthStateChanged(auth, async (user) => {
 
 if (user) {
 
-        if (loginBtn) {
-            loginBtn.style.display = "none";
-        }
+      if (loginBtn) {
+    loginBtn.style.setProperty("display", "none", "important");
+}
 
 
         try {
