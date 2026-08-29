@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solo Leveling</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#0f0f0f;
+    color:white;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 15px;
+    background:#1a1a1a;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid rgba(255,46,99,.2);
+}
+
+.logo-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-wrap img{
+    width:32px;
+    height:32px;
+}
+
+.logo{
+    color:#ff2e63;
+    font-weight:800;
+    font-size:18px;
+}
+
+/* NAV BUTTONS */
+.nav-buttons{
+    display:flex;
+    gap:10px;
+}
+
+.nav-buttons button{
+    background:#242424;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.nav-buttons button:hover{
+    background:#333;
+}
+
+/* READER */
+.reader{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.page{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.page img{
+    width:100%;
+    display:block;
+    border-radius:6px;
+}
+
+/* REACTIONS */
+.section{
+    padding:20px;
+    max-width:900px;
+    margin:auto;
+}
+
+.reactions button{
+    background:#1a1a1a;
+    border:1px solid #333;
+    color:white;
+    padding:10px 15px;
+    margin-right:10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* COMMENTS */
+.comments input,
+.comments textarea{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    background:#1a1a1a;
+    border:1px solid #333;
+    color:white;
+    border-radius:6px;
+}
+
+.comments textarea{
+    height:100px;
+    resize:none;
+}
+
+.post-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    margin-top:10px;
+    background:#ff2e63;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:6px;
+    cursor:pointer;
+
+    text-decoration:none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    line-height:normal;
+    box-sizing:border-box;
+}
+
+.post-btn:hover{
+    background:#ff4b7a;
+}
+.nav-btn{
+    background:#242424;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:white;
+    font-weight:600;
+}
+
+.nav-btn img{
+    width:18px;
+    height:18px;
+}
+    .login-btn{
+    width:100%;
+    max-width:900px;
+    margin:20px auto;
+    display:block;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#ff2e63;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+}
+
+#userPanel{
+    max-width:900px;
+    margin:15px auto;
+    text-align:center;
+}
+    .comment-profile{
+    margin-bottom:10px;
+    color:#ff2e63;
+    font-weight:700;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo-wrap">
+        <img src="/assets/logo.png" alt="">
+        <div class="logo">MARU MANHWA</div>
+    </div>
+
+    <div class="nav-buttons">
+        <button onclick="history.back()">⬅ Back</button>
+     <button onclick="prevChapter()" class="nav-btn">
+    <img src="/assets/leftarrow.PNG" alt="">
+    <span>Prev</span>
+</button>
+
+<button onclick="nextChapter()" class="nav-btn">
+    <span>Next</span>
+    <img src="/assets/rightarrow.PNG" alt="">
+</button>
+    </div>
+</header>
+
+<!-- READER (IMAGES) -->
+<div class="reader" id="reader">
+
+    <!-- Example images (you will replace dynamically or manually) -->
+    <div class="page"><img src="../slide/1/solo-1-1.png"></div>
+    <div class="page"><img src="../slide/1/solo-1-2.png"></div>
+    <div class="page"><img src="../slide/1/solo-1-3.png"></div>
+
+</div>
+
+<!-- REACTIONS -->
+<div class="section">
+<h2>Reactions</h2>
+<div class="reactions">
+    <button onclick="react('like')">👍 <span id="likeCount">0</span></button>
+    <button onclick="react('love')">❤️ <span id="loveCount">0</span></button>
+    <button onclick="react('fire')">🔥 <span id="fireCount">0</span></button>
+</div>
+</div>
+
+<div id="userPanel"></div>
+
+<!-- COMMENTS -->
+<div class="section comments">
+<h2>Comments</h2>
+
+    <div id="commentUser"></div>
+
+<textarea id="commentInput"
+placeholder="Write a comment..."></textarea>
+
+<div style="display:flex;gap:10px;margin-top:10px;">
+    
+    <button class="post-btn"
+    onclick="postComment()">
+      Post Comment
+    </button>
+
+   <a id="showLoginBtn"
+   class="post-btn"
+   href="/login/?return=/solo-leveling/chapter/1.html">
+  Login
+</a>
+
+</div>
+
+<div id="commentList"></div>
+
+</div>
+
+<script>
+// chapter system (basic example)
+let chapter = 1;
+
+function nextChapter(){
+    chapter++;
+    alert("Go to chapter " + chapter);
+    // later you will link: location.href = `solo-${chapter}.html`
+}
+
+function prevChapter(){
+    if(chapter > 1){
+        chapter--;
+        alert("Go to chapter " + chapter);
+    }
+}
+</script>
+<script type="module">
+    
+import { auth, db } from "/js/firebase.js";
+
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+    
+    const chapterId = "solo-leveling-chapter-1";
+
+    const reactionRef = doc(db, "reactions", chapterId);
+
+    window.react = async function(type) {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please login first");
+    return;
+  }
+
+  const uid = user.uid;
+
+  const snap = await getDoc(reactionRef);
+
+  let data = snap.exists() ? snap.data() : {
+    like: [],
+    love: [],
+    fire: []
+  };
+
+  if (data[type].includes(uid)) {
+    data[type] = data[type].filter(id => id !== uid);
+  } else {
+    data[type].push(uid);
+  }
+
+  await setDoc(reactionRef, data);
+
+  loadReactions();
+};
+
+    async function loadReactions() {
+
+  const snap = await getDoc(reactionRef);
+
+  const data = snap.exists() ? snap.data() : {
+    like: [],
+    love: [],
+    fire: []
+  };
+
+  document.getElementById("likeCount").innerText = data.like.length;
+  document.getElementById("loveCount").innerText = data.love.length;
+  document.getElementById("fireCount").innerText = data.fire.length;
+}
+    
+    loadReactions();
+    
+window.postComment = async function() {
+
+  if(!auth.currentUser){
+    alert("Please login first.");
+    return;
+  }
+
+const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
+
+if (!userDoc.exists()) {
+  alert("User profile missing in Firestore");
+  return;
+}
+
+const data = userDoc.data();
+const name = data.username || "Anonymous";
+  const comment = document.getElementById("commentInput").value;
+
+  if (!comment.trim()) {
+    alert("Please fill in both fields.");
+    return;
+  }
+
+  await addDoc(collection(db, chapterId), {
+  name,
+  profilePic: data.profilePic || "/assets/profile.png",
+  comment,
+  time: Date.now()
+});
+
+  document.getElementById("commentInput").value = "";
+};
+
+const q = query(
+  collection(db, chapterId),
+  orderBy("time", "desc")
+);
+
+onSnapshot(q, (snapshot) => {
+
+  const commentList = document.getElementById("commentList");
+  commentList.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+
+    const data = doc.data();
+
+    commentList.innerHTML += `
+<div style="
+  background:#1a1a1a;
+  border:1px solid #333;
+  padding:12px;
+  margin-top:10px;
+  border-radius:8px;
+">
+
+  <div style="
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+  ">
+
+    <img
+      src="${data.profilePic}"
+      style="
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        object-fit:cover;
+      "
+    >
+
+    <strong>${data.name}</strong>
+
+  </div>
+
+  <p>${data.comment}</p>
+
+</div>
+`;
+  });
+});
+    
+window.logoutUser = async function(){
+
+  await signOut(auth);
+
+}
+
+    onAuthStateChanged(auth, (user) => {
+
+  const loginBtn = document.getElementById("showLoginBtn");
+
+  if (!loginBtn) return;
+
+  if (user) {
+    // User is logged in → hide Login button
+    loginBtn.style.display = "none";
+  } else {
+    // User is logged out → show Login button
+    loginBtn.style.display = "inline-flex";
+  }
+
+});
+    
+</script>
+</body>
+</html>
