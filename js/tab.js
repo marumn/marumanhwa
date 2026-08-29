@@ -105,7 +105,7 @@ gap:10px;
 
 
 <img 
-src="../assets/profile.png"
+src="/assets/profile.png"
 style="
 width:40px;
 height:40px;
